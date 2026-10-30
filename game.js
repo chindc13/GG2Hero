@@ -1622,6 +1622,9 @@
           console.log(`[StartGame] Canvas ${idx}: id=${c.id}, width=${c.width}, height=${c.height}, ctx=${!!ctx}`);
           return ctx;
         });
+        console.log(`[StartGame] Final playerContexts array:`, playerContexts);
+        console.log(`[StartGame] playerContexts.length:`, playerContexts.length);
+        playerContexts.forEach((ctx, i) => console.log(`[StartGame] playerContexts[${i}] = ${ctx ? 'context' : 'NULL'}`));
       }
       
       console.log(`[GameStart] Multiplayer mode: ${playerCount} players, got ${playerContexts.length} contexts`);

@@ -1655,6 +1655,7 @@
           pendingInputLanes: new Set(),
           laneHitUntil: new Array(laneCount).fill(0),
           chartWindowStart: 0,
+          noteHitStatus: new Map(), // Track which notes this player has hit (by note index)
         };
       }
     } else {
@@ -1799,19 +1800,22 @@
       
       const hitWindowMs = settings[selectedDifficulty].hitWindow;
       
-      // Check for missed notes
+      // Check for missed notes (per-player tracking)
       for (let index = player.chartWindowStart; index < playerChart.length; index++) {
         const note = playerChart[index];
         if (note.time > elapsed + hitWindowMs) break;
         
-        // For now, simplify by using global input. In full implementation, route per player
+        // Check if this player has already hit or missed this note
+        const playerHitStatus = player.noteHitStatus.get(index);
+        if (playerHitStatus !== undefined) continue; // Already processed by this player
+        
+        // Check if input is pending
         const inputPending = pendingInputLanes.size > 0
           && Math.abs(note.time - pendingInputAt) <= hitWindowMs;
         
-        if (!note.hit && !note.missed && !inputPending 
-          && elapsed > note.time + hitWindowMs) {
-          note.missed = true;
-          note.tailsDead = true;
+        // Mark as missed if past the hit window and no input pending
+        if (!inputPending && elapsed > note.time + hitWindowMs) {
+          player.noteHitStatus.set(index, 'missed');
           player.combo = 0;
           if (currentMode !== "training" && !noFailMode) {
             player.rock = Math.max(0, player.rock - 5);
@@ -1934,6 +1938,18 @@
 
   function judgeFrets(pressedLanes, pressedAt) {
     if (!running || pressedLanes.size === 0) return;
+    
+    // In multiplayer mode, route to all players; in single player, use global
+    if (isSimultaneousMultiplayer) {
+      for (let playerIdx = 0; playerIdx < playerCount; playerIdx++) {
+        judgeFretsForPlayer(playerIdx, pressedLanes, pressedAt);
+      }
+    } else {
+      judgeFretsGlobal(pressedLanes, pressedAt);
+    }
+  }
+
+  function judgeFretsGlobal(pressedLanes, pressedAt) {
     let target;
     let smallestDifference = Infinity;
 
@@ -1981,6 +1997,59 @@
     for (const lane of target.lanes) laneHitUntil[lane] = performance.now() + 170;
     showFeedback(smallestDifference <= 55 ? "PERFECT!" : "GREAT!");
     updateHud();
+  }
+
+  function judgeFretsForPlayer(playerIdx, pressedLanes, pressedAt) {
+    const player = playerStates[playerIdx];
+    let target;
+    let targetIdx = -1;
+    let smallestDifference = Infinity;
+
+    for (let index = player.chartWindowStart; index < chart.length; index++) {
+      const note = chart[index];
+      // Skip if this player already hit or missed this note
+      if (player.noteHitStatus.has(index)) continue;
+      
+      const difference = Math.abs(note.time - pressedAt);
+      if (difference < smallestDifference) {
+        target = note;
+        targetIdx = index;
+        smallestDifference = difference;
+      }
+      if (note.time - pressedAt > settings[selectedDifficulty].hitWindow) break;
+    }
+
+    const hitWindow = settings[selectedDifficulty].hitWindow;
+    if (!target || smallestDifference > hitWindow) {
+      player.combo = 0;
+      if (currentMode !== "training" && !noFailMode) player.rock = Math.max(0, player.rock - 4);
+      playMissScratch();
+      return;
+    }
+
+    // Mark as hit for this player
+    player.noteHitStatus.set(targetIdx, 'hit');
+    // Also mark global note as hit (for rendering purposes)
+    target.hit = true;
+    
+    const matchingFrets = target.lanes.length === pressedLanes.size
+      && target.lanes.every((lane) => pressedLanes.has(lane));
+    if (!matchingFrets) {
+      target.tailsDead = true;
+      player.combo = 0;
+      if (currentMode !== "training" && !noFailMode) player.rock = Math.max(0, player.rock - 7);
+      playMissScratch();
+      return;
+    }
+
+    const multiplier = Math.min(4, 1 + Math.floor(player.combo / 10));
+    player.combo += 1;
+    player.bestCombo = Math.max(player.bestCombo, player.combo);
+    const points = smallestDifference <= 55 ? 100 : smallestDifference <= 110 ? 75 : 50;
+    player.score += points * multiplier;
+    player.rock = Math.min(100, player.rock + 1.6);
+    for (const lane of target.lanes) playHitGuitar(lane);
+    for (const lane of target.lanes) player.laneHitUntil[lane] = performance.now() + 170;
   }
 
   for (const button of menuButtons) {

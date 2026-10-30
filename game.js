@@ -1028,12 +1028,20 @@
     // Ensure we have contexts (in case they weren't initialized properly)
     if (playerContexts.length !== playerCount) {
       console.warn(`[Draw] Context count mismatch: ${playerContexts.length} vs ${playerCount}, reinitializing`);
-      if (playerCount === 4) {
-        const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
-        console.log(`[Draw Reinit] Found ${boards.length} canvases`);
+      if (playerCount === 2) {
+        const boards = multiplayerBoards.querySelectorAll(".board-canvas");
+        console.log(`[Draw Reinit] Found ${boards.length} canvases (2-player)`);
         playerContexts = [...boards].map(c => c.getContext("2d"));
-        console.log(`[Draw Reinit] Now have ${playerContexts.length} contexts`);
+      } else if (playerCount === 3) {
+        const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
+        console.log(`[Draw Reinit] Found ${boards.length} canvases (3-player)`);
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 4) {
+        const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
+        console.log(`[Draw Reinit] Found ${boards.length} canvases (4-player)`);
+        playerContexts = [...boards].map(c => c.getContext("2d"));
       }
+      console.log(`[Draw Reinit] Now have ${playerContexts.length} contexts`);
     }
     
     for (let playerIdx = 0; playerIdx < playerCount && playerIdx < playerContexts.length; playerIdx++) {

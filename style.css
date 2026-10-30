@@ -313,6 +313,7 @@ canvas {
   display: block;
   pointer-events: none;
   background: transparent;
+  /* Keep canvas at HTML-defined dimensions, let CSS flex handle sizing */
 }
 
 .player-stats {

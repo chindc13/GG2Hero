@@ -147,6 +147,7 @@
   let noFailMode = false;
   let selectedDifficulty = "medium";
   let isSimultaneousMultiplayer = false;
+  let frameCount = 0;
   
   // Simultaneous multiplayer state
   let playerStates = []; // Array of { score, combo, bestCombo, rock, activeLanes, etc }
@@ -1022,9 +1023,29 @@
   
   function drawSimultaneousMultiplayer(elapsed, now) {
     // Draw full game view to each player's canvas
+    if (frameCount++ % 60 === 0) console.log(`[Draw] Rendering to ${playerContexts.length} canvases, playerCount=${playerCount}`);
+    
+    // Ensure we have contexts (in case they weren't initialized properly)
+    if (playerContexts.length !== playerCount) {
+      console.warn(`[Draw] Context count mismatch: ${playerContexts.length} vs ${playerCount}, reinitializing`);
+      if (playerCount === 2) {
+        const boards = multiplayerBoards.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 3) {
+        const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 4) {
+        const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      }
+    }
+    
     for (let playerIdx = 0; playerIdx < playerCount && playerIdx < playerContexts.length; playerIdx++) {
       const ctx = playerContexts[playerIdx];
-      if (!ctx) continue;
+      if (!ctx) {
+        console.warn(`[Draw] No context for player ${playerIdx}, skipping`);
+        continue;
+      }
       
       const playerState = playerStates[playerIdx];
       const canvas = ctx.canvas;
@@ -1582,6 +1603,8 @@
         const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
         playerContexts = [...boards].map(c => c.getContext("2d"));
       }
+      
+      console.log(`[GameStart] Multiplayer mode: ${playerCount} players, got ${playerContexts.length} contexts`);
       
       // Initialize state for each player
       for (let i = 0; i < playerCount; i++) {

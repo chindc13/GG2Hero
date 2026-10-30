@@ -66,7 +66,7 @@
   const defaultBindings = { lanes: [7, 5, 6, 4, 0], star: 8 };
   const bindingsStorageKey = "gg2hero.controllerBindings";
   const starFullDrainMs = 16000;
-  const starPhraseGain = 25;
+  const starPhraseGain = 10;
   const starMinActivate = 50;
 
   function loadBindings() {
@@ -769,11 +769,11 @@
     return Math.min(4, 1 + Math.floor(combo / 10)) * (starActive ? 2 : 1);
   }
 
-  // Every third group of 4 notes becomes a star phrase; a fully hit phrase fills the meter.
+  // Every fifth group of 4 notes becomes a star phrase; a fully hit phrase fills the meter.
   function markStarPhrases(notes) {
     const groupSize = 4;
     for (let start = 0; start < notes.length; start += groupSize) {
-      if ((start / groupSize) % 3 !== 2) continue;
+      if ((start / groupSize) % 5 !== 4) continue;
       const group = notes.slice(start, start + groupSize);
       if (group.length < groupSize) break;
       const phrase = { size: group.length, hit: 0, failed: false };
@@ -797,6 +797,24 @@
     starActive = true;
     starLastElapsed = songTimeMs();
     showFeedback("STAR POWER!");
+    playStarPowerSound();
+  }
+
+  function playStarPowerSound() {
+    if (!audioContext) return;
+    try {
+      const now = audioContext.currentTime;
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.frequency.value = 800;
+      osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } catch {}
   }
 
   function updateStarPower(elapsed) {
@@ -1094,10 +1112,15 @@
       context.fill();
 
       if (note.star && !note.star.failed) {
-        context.strokeStyle = "#bfe6ff";
-        context.lineWidth = 2.5;
-        ellipse(x, centerY - radiusY * 0.05, radiusX * 1.05, radiusY * 1.05);
+        // Star power note indicator - cyan ring with glow
+        context.strokeStyle = "#00ffff";
+        context.lineWidth = 3;
+        context.shadowColor = "#00ffff";
+        context.shadowBlur = 12;
+        ellipse(x, centerY - radiusY * 0.05, radiusX * 1.15, radiusY * 1.15);
         context.stroke();
+        context.shadowBlur = 0;
+        // Draw star symbol
         drawStarShape(x, centerY - radiusY * 0.4, radiusY * 0.9);
       }
     }
@@ -1114,10 +1137,10 @@
       else context.lineTo(px, py);
     }
     context.closePath();
-    context.fillStyle = "#ffffff";
+    context.fillStyle = "#ffff00";
     context.fill();
-    context.strokeStyle = "#47a8ff";
-    context.lineWidth = 1.5;
+    context.strokeStyle = "#00ccff";
+    context.lineWidth = 2;
     context.stroke();
   }
 

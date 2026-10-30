@@ -1122,21 +1122,16 @@
       for (let lane = 0; lane < laneCount; lane++) {
         const laneProgress = (lane + 0.5) / laneCount;
         const laneX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
-        const fretRadiusX = (scaledBottomHalfWidth / laneCount) * 0.35;
-        const fretRadiusY = 14 * scale;
+        const fretRadiusX = Math.max(0.5, (scaledBottomHalfWidth / laneCount) * 0.35);
+        const fretRadiusY = Math.max(1, 14 * scale);
         
-        // Safety check: ensure radii are positive
-        if (fretRadiusX > 0 && fretRadiusY > 0 && !isNaN(fretRadiusX) && !isNaN(fretRadiusY)) {
-          ctx.fillStyle = laneColors[lane];
-          ctx.beginPath();
-          ctx.ellipse(laneX, scaledHitLineY + 20 * scale, fretRadiusX, fretRadiusY, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.strokeStyle = "rgba(0,0,0,0.4)";
-          ctx.lineWidth = 2 * scale;
-          ctx.stroke();
-        } else {
-          console.warn(`[Draw] Skipping fret at lane ${lane}: radiusX=${fretRadiusX}, radiusY=${fretRadiusY}`);
-        }
+        ctx.fillStyle = laneColors[lane];
+        ctx.beginPath();
+        ctx.ellipse(laneX, scaledHitLineY + 20 * scale, fretRadiusX, fretRadiusY, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.4)";
+        ctx.lineWidth = Math.max(0.5, 2 * scale);
+        ctx.stroke();
       }
       
       // Clip and draw notes for this player
@@ -1172,26 +1167,22 @@
           const laneX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
           
           // Scale based on perspective
-          const notePerspectiveScale = 0.4 + 0.6 * noteProgress;
-          const gemWidth = (scaledBottomHalfWidth / laneCount) * 0.5 * notePerspectiveScale;
-          const gemHeight = 24 * notePerspectiveScale * scale;
-          const gemRadiusX = gemWidth * 0.6;
-          const gemRadiusY = gemHeight * 0.5;
+          const notePerspectiveScale = Math.max(0.3, 0.4 + 0.6 * noteProgress); // Clamp to prevent too-small gems
+          const gemWidth = Math.max(1, (scaledBottomHalfWidth / laneCount) * 0.5 * notePerspectiveScale);
+          const gemHeight = Math.max(2, 24 * notePerspectiveScale * scale);
+          const gemRadiusX = Math.max(0.5, gemWidth * 0.6);
+          const gemRadiusY = Math.max(0.5, gemHeight * 0.5);
           
-          // Gem colors (dome) - with safety check
-          if (gemRadiusX > 0 && gemRadiusY > 0 && !isNaN(gemRadiusX) && !isNaN(gemRadiusY)) {
-            ctx.fillStyle = laneColors[lane];
-            ctx.beginPath();
-            ctx.ellipse(laneX, noteY, gemRadiusX, gemRadiusY, 0, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Gem ring
-            ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
-            ctx.lineWidth = 1.5 * scale;
-            ctx.stroke();
-          } else if (frameCount <= 5) {
-            console.warn(`[Draw] Skipping gem at lane ${lane}: radiusX=${gemRadiusX}, radiusY=${gemRadiusY}, progress=${noteProgress}`);
-          }
+          // Gem colors (dome)
+          ctx.fillStyle = laneColors[lane];
+          ctx.beginPath();
+          ctx.ellipse(laneX, noteY, gemRadiusX, gemRadiusY, 0, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Gem ring
+          ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
+          ctx.lineWidth = Math.max(0.5, 1.5 * scale);
+          ctx.stroke();
         }
       }
       

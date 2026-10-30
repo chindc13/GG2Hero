@@ -1052,6 +1052,8 @@
       const width = canvas.width;
       const height = canvas.height;
       
+      if (frameCount <= 2) console.log(`[Draw Player ${playerIdx}] Canvas dimensions: ${width}x${height}`);
+      
       // Clear and draw background
       ctx.clearRect(0, 0, width, height);
       const sky = ctx.createLinearGradient(0, 0, 0, height);
@@ -1060,6 +1062,12 @@
       sky.addColorStop(1, "#100e13");
       ctx.fillStyle = sky;
       ctx.fillRect(0, 0, width, height);
+      
+      // Test: Draw a colored rect for each player to see if they're rendering
+      ctx.fillStyle = `hsl(${playerIdx * 90}, 100%, 50%)`;
+      ctx.globalAlpha = 0.2;
+      ctx.fillRect(0, 0, width, height);
+      ctx.globalAlpha = 1;
       
       // Draw highway scaled to this player's canvas
       const scale = width / 960;

@@ -52,7 +52,8 @@
   const menuNotice = document.querySelector("#menu-notice");
   const bindingRows = [...document.querySelectorAll(".binding-row")];
   const bindingHint = document.querySelector("#binding-hint");
-  const resetBindingsButton = document.querySelector("#reset-bindings");
+  const resetBindingsButton = document.querySelector("#reset-bindings-button");
+  const controllerConfig = document.querySelector("#controller-config");
   const feedbackElement = document.querySelector("#feedback");
   const controllerStatus = document.querySelector("#controller-status");
   const clockStatus = document.querySelector("#clock-status");
@@ -165,6 +166,7 @@
   let previousStarPressed = false;
   let menuNoticeTimer;
   let songStartPerformanceTime = 0;
+  let songStartAudioTime = 0;
   let running = false;
   let paused = false;
   let pausedAtPerformance = 0;
@@ -1540,6 +1542,7 @@
     mainMenu.hidden = screen !== "menu";
     setupScreen.hidden = screen !== "setup";
     optionsScreen.hidden = screen !== "options";
+    controllerConfig.hidden = screen !== "options";
     menuOverlay.hidden = false;
     resultsOverlay.hidden = true;
     

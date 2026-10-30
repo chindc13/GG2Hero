@@ -32,6 +32,13 @@
             <span id="rock-fill"></span>
           </div>
         </div>
+        <div class="star-block">
+          <span class="stat-label">Star Power</span>
+          <div class="meter" id="star-meter" role="meter" aria-label="Star meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="star-fill"></span>
+          </div>
+          <p class="star-hint" id="star-hint"></p>
+        </div>
       </section>
 
       <section class="stage" aria-label="GG2Hero five-lane guitar game">
@@ -140,6 +147,7 @@
                 <button class="menu-option" data-action="options" type="button"><span>04</span>Options<span class="option-arrow">›</span></button>
               </div>
               <p class="menu-hint"><kbd>↑</kbd><kbd>↓</kbd> SELECT <kbd>ENTER</kbd> CONFIRM</p>
+              <p class="menu-notice" id="menu-notice" hidden></p>
             </section>
           </div>
 
@@ -236,6 +244,43 @@
                 <option value="off">Off</option>
               </select>
             </label>
+            <div class="controller-config" id="controller-config" hidden>
+              <h3>Controller Button Bindings</h3>
+              <p class="binding-hint" id="binding-hint">Click a binding to configure.</p>
+              <div class="binding-list" id="binding-list">
+                <div class="binding-row" data-bind="0">
+                  <div class="binding-swatch fret-green"></div>
+                  <span class="binding-label">Green Fret</span>
+                  <span class="binding-value">Button 7</span>
+                </div>
+                <div class="binding-row" data-bind="1">
+                  <div class="binding-swatch fret-red"></div>
+                  <span class="binding-label">Red Fret</span>
+                  <span class="binding-value">Button 5</span>
+                </div>
+                <div class="binding-row" data-bind="2">
+                  <div class="binding-swatch fret-yellow"></div>
+                  <span class="binding-label">Yellow Fret</span>
+                  <span class="binding-value">Button 6</span>
+                </div>
+                <div class="binding-row" data-bind="3">
+                  <div class="binding-swatch fret-blue"></div>
+                  <span class="binding-label">Blue Fret</span>
+                  <span class="binding-value">Button 4</span>
+                </div>
+                <div class="binding-row" data-bind="4">
+                  <div class="binding-swatch fret-orange"></div>
+                  <span class="binding-label">Orange Fret</span>
+                  <span class="binding-value">Button 0</span>
+                </div>
+                <div class="binding-row" data-bind="star">
+                  <div class="binding-swatch" style="background: #FFD700;"></div>
+                  <span class="binding-label">Star Power</span>
+                  <span class="binding-value">Button 8</span>
+                </div>
+              </div>
+              <button class="secondary-button" id="reset-bindings-button" type="button">Reset to Defaults</button>
+            </div>
             <div class="screen-actions">
               <button class="secondary-button" data-action="back" type="button">Back</button>
               <button class="primary-button" id="save-options" type="button">Save options</button>
@@ -250,6 +295,15 @@
             <p id="message"></p>
             <button class="primary-button" id="result-action" type="button">Continue</button>
             <button class="text-button" id="result-menu" type="button">Main menu</button>
+          </div>
+        </div>
+
+        <div class="overlay pause-overlay" id="pause-overlay" hidden>
+          <div class="pause-card">
+            <p class="eyebrow">GG2Hero · PAUSED</p>
+            <h2>Game paused</h2>
+            <button class="primary-button" id="pause-resume" type="button">Resume (Esc)</button>
+            <button class="secondary-button" id="pause-quit" type="button">Quit to Menu</button>
           </div>
         </div>
       </section>

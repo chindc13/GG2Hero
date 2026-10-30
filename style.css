@@ -1127,6 +1127,23 @@ h1 span {
   font-size: 0.72rem;
 }
 
+.binding-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.binding-row[data-bind="0"] .binding-swatch { background: #63ed54; }
+.binding-row[data-bind="1"] .binding-swatch { background: #f34d59; }
+.binding-row[data-bind="2"] .binding-swatch { background: #f5dc45; }
+.binding-row[data-bind="3"] .binding-swatch { background: #47bcf3; }
+.binding-row[data-bind="4"] .binding-swatch { background: #f59a38; }
+.binding-row[data-bind="star"] .binding-swatch { background: #FFD700; }
+
+.binding-label {
+  font-size: 0.76rem;
+}
+
 .swatch {
   width: 12px;
   height: 12px;
@@ -1188,6 +1205,22 @@ h1 span {
 
 .text-button:hover {
   color: #fff;
+}
+
+.pause-card {
+  text-align: center;
+}
+
+.pause-card h2 {
+  margin: 9px 0;
+  font-size: 1.8rem;
+}
+
+.pause-card .primary-button,
+.pause-card .secondary-button {
+  display: block;
+  min-width: 155px;
+  margin: 10px auto 0;
 }
 
 @media (max-width: 620px) {

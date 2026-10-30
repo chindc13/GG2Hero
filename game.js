@@ -1604,11 +1604,14 @@
         const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
         playerContexts = [...boards].map(c => c.getContext("2d"));
       } else if (playerCount === 4) {
+        console.log(`[StartGame] multiplayerBoards4 element:`, multiplayerBoards4);
+        console.log(`[StartGame] multiplayerBoards4.hidden before query:`, multiplayerBoards4?.hidden);
         const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
         console.log(`[StartGame] Found ${boards.length} board canvases in multiplayerBoards4`);
+        console.log(`[StartGame] Individual canvases:`, boards);
         playerContexts = [...boards].map((c, idx) => {
           const ctx = c.getContext("2d");
-          console.log(`[StartGame] Canvas ${idx}: width=${c.width}, height=${c.height}, ctx=${!!ctx}`);
+          console.log(`[StartGame] Canvas ${idx}: id=${c.id}, width=${c.width}, height=${c.height}, ctx=${!!ctx}`);
           return ctx;
         });
       }

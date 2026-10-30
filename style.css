@@ -146,7 +146,7 @@ h1 span {
 
 .hud {
   display: grid;
-  grid-template-columns: 1.05fr 0.9fr 0.75fr 1.8fr;
+  grid-template-columns: 1.05fr 0.9fr 0.75fr 1.3fr 1.6fr;
   gap: 2px;
   margin-bottom: 8px;
   overflow: hidden;
@@ -178,6 +178,30 @@ h1 span {
 
 .multiplier-block strong {
   color: var(--yellow);
+}
+
+.star-block .meter span {
+  width: 0%;
+  background: linear-gradient(90deg, #4aa8ff, #bfe6ff);
+}
+
+.star-block small {
+  color: #bfe6ff;
+  font-weight: 800;
+}
+
+.star-block.is-ready {
+  background: linear-gradient(110deg, #1f3447, #1d1a20);
+}
+
+.star-block.is-ready .meter,
+.star-block.is-active .meter {
+  border-color: #8fd0ff;
+  box-shadow: 0 0 10px rgb(110 195 255 / 70%);
+}
+
+.star-block.is-active .meter span {
+  background: linear-gradient(90deg, #ffffff, #8fd0ff);
 }
 
 .rock-block {
@@ -652,6 +676,10 @@ kbd {
     padding: 6px 9px;
   }
 
+  .star-block {
+    grid-column: 1 / -1;
+  }
+
   .rock-block {
     grid-column: 1 / -1;
     grid-template-columns: auto 1fr !important;
@@ -1037,8 +1065,86 @@ h1 span {
   border-bottom: 1px solid rgb(217 169 111 / 16%);
 }
 
+.options-screen {
+  max-height: calc(100% - 12px);
+  overflow-y: auto;
+}
+
 .options-screen .screen-actions {
   margin-top: 20px;
+}
+
+.controller-config {
+  margin-top: 14px;
+}
+
+.controller-config .eyebrow {
+  margin-bottom: 4px;
+}
+
+.binding-hint {
+  margin: 0 0 8px;
+  color: #b6a99d;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.binding-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.binding-row {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid #54444a;
+  border-radius: 5px;
+  background: #211a20;
+  color: #d4c7bc;
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-align: left;
+}
+
+.binding-row:hover,
+.binding-row:focus-visible {
+  border-color: #d9a96f;
+}
+
+.binding-row.is-listening {
+  border-color: #8fd0ff;
+  background: #1f3447;
+  color: #fff;
+}
+
+.binding-value {
+  color: #e9b56e;
+  font-size: 0.72rem;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.swatch-green { background: #63ed54; }
+.swatch-red { background: #f34d59; }
+.swatch-yellow { background: #f5dc45; }
+.swatch-blue { background: #47bcf3; }
+.swatch-orange { background: #f59a38; }
+.swatch-star { background: #cfe9ff; }
+
+.menu-notice {
+  margin: 8px 0 0;
+  color: #e9b56e;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .results-overlay {

@@ -45,6 +45,14 @@
   const pauseOverlay = document.querySelector("#pause-overlay");
   const pauseResume = document.querySelector("#pause-resume");
   const pauseQuit = document.querySelector("#pause-quit");
+  const starFill = document.querySelector("#star-fill");
+  const starMeter = document.querySelector("#star-meter");
+  const starBlock = document.querySelector(".star-block");
+  const starHint = document.querySelector("#star-hint");
+  const menuNotice = document.querySelector("#menu-notice");
+  const bindingRows = [...document.querySelectorAll(".binding-row")];
+  const bindingHint = document.querySelector("#binding-hint");
+  const resetBindingsButton = document.querySelector("#reset-bindings");
   const feedbackElement = document.querySelector("#feedback");
   const controllerStatus = document.querySelector("#controller-status");
   const clockStatus = document.querySelector("#clock-status");
@@ -54,7 +62,26 @@
 
   const laneCount = 5;
   const laneKeys = ["a", "s", "d", "j", "k"];
-  const gamepadButtons = [7, 5, 6, 4, 0];
+  const defaultBindings = { lanes: [7, 5, 6, 4, 0], star: 8 };
+  const bindingsStorageKey = "gg2hero.controllerBindings";
+  const starFullDrainMs = 16000;
+  const starPhraseGain = 25;
+  const starMinActivate = 50;
+
+  function loadBindings() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(bindingsStorageKey));
+      if (Array.isArray(saved?.lanes) && saved.lanes.length === laneCount
+        && saved.lanes.every(Number.isInteger) && Number.isInteger(saved.star)) {
+        return { lanes: saved.lanes, star: saved.star };
+      }
+    } catch {
+      // Fall back to defaults when storage is unavailable or corrupted.
+    }
+    return { lanes: [...defaultBindings.lanes], star: defaultBindings.star };
+  }
+
+  let bindings = loadBindings();
   const laneColors = ["#63ed54", "#f34d59", "#f5dc45", "#47bcf3", "#f59a38"];
   const laneFrequencies = [196, 220, 261.63, 293.66, 329.63];
   const beatMs = 500;
@@ -132,7 +159,11 @@
   let combo = 0;
   let bestCombo = 0;
   let rock = 50;
-  let songStartAudioTime = 0;
+  let starPower = 0;
+  let starActive = false;
+  let starLastElapsed = 0;
+  let previousStarPressed = false;
+  let menuNoticeTimer;
   let songStartPerformanceTime = 0;
   let running = false;
   let paused = false;
@@ -182,12 +213,18 @@
   }
 
   function getTrackChart(track, difficulty = difficultySelect.value) {
-    if (track?.type === "practice") return makeChart(difficulty);
+    if (track?.type === "practice") {
+      const practiceChart = makeChart(difficulty);
+      markStarPhrases(practiceChart);
+      return practiceChart;
+    }
     const available = difficultyFallback.slice(difficultyFallback.indexOf(difficulty))
       .find((level) => track?.charts?.[level]?.length > 0);
     const notes = track?.charts?.[available];
     if (!Array.isArray(notes) || notes.length === 0) return null;
-    return notes.map((note) => toChartNote(note.timeMs, note.lanes, note.lengthsMs));
+    const songChart = notes.map((note) => toChartNote(note.timeMs, note.lanes, note.lengthsMs));
+    markStarPhrases(songChart);
+    return songChart;
   }
 
   function toChartNote(time, lanes, lengthsMs) {
@@ -726,13 +763,61 @@
     }, 420);
   }
 
+  function currentMultiplier() {
+    return Math.min(4, 1 + Math.floor(combo / 10)) * (starActive ? 2 : 1);
+  }
+
+  // Every third group of 4 notes becomes a star phrase; a fully hit phrase fills the meter.
+  function markStarPhrases(notes) {
+    const groupSize = 4;
+    for (let start = 0; start < notes.length; start += groupSize) {
+      if ((start / groupSize) % 3 !== 2) continue;
+      const group = notes.slice(start, start + groupSize);
+      if (group.length < groupSize) break;
+      const phrase = { size: group.length, hit: 0, failed: false };
+      for (const note of group) note.star = phrase;
+    }
+  }
+
+  function failStarPhrase(note) {
+    if (note.star) note.star.failed = true;
+  }
+
+  function scoreStarNote(note) {
+    const phrase = note.star;
+    if (!phrase || phrase.failed) return;
+    phrase.hit += 1;
+    if (phrase.hit === phrase.size) starPower = Math.min(100, starPower + starPhraseGain);
+  }
+
+  function activateStarPower() {
+    if (!running || paused || starActive || starPower < starMinActivate) return;
+    starActive = true;
+    starLastElapsed = songTimeMs();
+    showFeedback("STAR POWER!");
+  }
+
+  function updateStarPower(elapsed) {
+    if (!starActive) return;
+    const delta = Math.max(0, elapsed - starLastElapsed);
+    starLastElapsed = elapsed;
+    starPower = Math.max(0, starPower - delta * (100 / starFullDrainMs));
+    if (starPower <= 0) starActive = false;
+  }
+
   function updateHud() {
-    const multiplier = Math.min(4, 1 + Math.floor(combo / 10));
+    const multiplier = currentMultiplier();
     scoreElement.textContent = score.toLocaleString();
     comboElement.textContent = String(combo);
     multiplierElement.textContent = `${multiplier}×`;
     rockFill.style.width = `${rock}%`;
     rockMeter.setAttribute("aria-valuenow", String(Math.round(rock)));
+    starFill.style.width = `${starPower}%`;
+    starMeter.setAttribute("aria-valuenow", String(Math.round(starPower)));
+    const ready = !starActive && starPower >= starMinActivate;
+    starBlock.classList.toggle("is-ready", ready);
+    starBlock.classList.toggle("is-active", starActive);
+    starHint.textContent = starActive ? "ACTIVE" : ready ? "READY · press Space" : "";
   }
   
   function updateMultiplayerHud() {
@@ -1005,7 +1090,33 @@
       context.fillStyle = "#f2f2f2";
       ellipse(x, centerY - radiusY * 0.62, radiusX * 0.24, radiusY * 0.2);
       context.fill();
+
+      if (note.star && !note.star.failed) {
+        context.strokeStyle = "#bfe6ff";
+        context.lineWidth = 2.5;
+        ellipse(x, centerY - radiusY * 0.05, radiusX * 1.05, radiusY * 1.05);
+        context.stroke();
+        drawStarShape(x, centerY - radiusY * 0.4, radiusY * 0.9);
+      }
     }
+  }
+
+  function drawStarShape(cx, cy, radius) {
+    context.beginPath();
+    for (let point = 0; point < 10; point += 1) {
+      const angle = -Math.PI / 2 + point * Math.PI / 5;
+      const r = point % 2 === 0 ? radius : radius * 0.45;
+      const px = cx + Math.cos(angle) * r;
+      const py = cy + Math.sin(angle) * r * 0.8;
+      if (point === 0) context.moveTo(px, py);
+      else context.lineTo(px, py);
+    }
+    context.closePath();
+    context.fillStyle = "#ffffff";
+    context.fill();
+    context.strokeStyle = "#47a8ff";
+    context.lineWidth = 1.5;
+    context.stroke();
   }
 
   function advanceChartWindow(elapsed) {
@@ -1015,10 +1126,28 @@
     }
   }
 
+  function drawStarGlow(now) {
+    const pulse = 0.18 + 0.08 * Math.sin(now / 140);
+    context.save();
+    context.beginPath();
+    context.moveTo(canvas.width / 2 - highwayTopHalfWidth, highwayHorizonY);
+    context.lineTo(canvas.width / 2 + highwayTopHalfWidth, highwayHorizonY);
+    context.lineTo(canvas.width / 2 + highwayBottomHalfWidth, hitLineY + 34);
+    context.lineTo(canvas.width / 2 - highwayBottomHalfWidth, hitLineY + 34);
+    context.closePath();
+    context.fillStyle = `rgba(120, 200, 255, ${pulse})`;
+    context.fill();
+    context.strokeStyle = "rgba(200, 235, 255, 0.85)";
+    context.lineWidth = 3;
+    context.stroke();
+    context.restore();
+  }
+
   function draw(elapsed, now) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     if (!currentTrack?.youtubeVideoId) drawBackground(now);
     drawHighway();
+    if (starActive) drawStarGlow(now);
     advanceChartWindow(elapsed);
     let windowEnd = chartWindowStart;
     while (windowEnd < chart.length && chart[windowEnd].time <= elapsed + approachMs) windowEnd += 1;
@@ -1456,13 +1585,112 @@
     if (action === "options") {
       defaultDifficulty.value = selectedDifficulty;
       defaultSpeed.value = speedSelect.value;
+      renderBindings();
       showScreen("options");
     } else if (action === "back") {
       showScreen("menu");
-    } else if (["quickplay", "multiplayer", "training"].includes(action)) {
+    } else if (action === "multiplayer" || action === "private-battle") {
+      const label = action === "multiplayer" ? "Local Multiplayer" : "Private Battle";
+      showMenuNotice(`${label} is still in development. Coming soon!`);
+    } else if (["quickplay", "training"].includes(action)) {
       openSetup(action);
     }
   }
+
+  function showMenuNotice(text) {
+    menuNotice.textContent = text;
+    menuNotice.hidden = false;
+    clearTimeout(menuNoticeTimer);
+    menuNoticeTimer = setTimeout(() => {
+      menuNotice.hidden = true;
+    }, 2600);
+  }
+
+  let listeningRow = null;
+  let listenFrame;
+  let listenBaseline = new Set();
+
+  function bindingKey(row) {
+    return row.dataset.bind === "star" ? "star" : Number(row.dataset.bind);
+  }
+
+  function describeBinding(index) {
+    return `Button ${index}`;
+  }
+
+  function renderBindings() {
+    for (const row of bindingRows) {
+      const key = bindingKey(row);
+      const value = row.querySelector(".binding-value");
+      value.textContent = describeBinding(key === "star" ? bindings.star : bindings.lanes[key]);
+    }
+  }
+
+  function stopListening(message) {
+    cancelAnimationFrame(listenFrame);
+    if (listeningRow) listeningRow.classList.remove("is-listening");
+    listeningRow = null;
+    if (message) bindingHint.textContent = message;
+  }
+
+  function pressedPadButtons() {
+    const pressed = new Set();
+    for (const pad of navigator.getGamepads?.() ?? []) {
+      if (!pad || !pad.connected) continue;
+      pad.buttons.forEach((button, index) => {
+        if (button.pressed || button.value > 0.5) pressed.add(index);
+      });
+    }
+    return pressed;
+  }
+
+  function listenForButton() {
+    const pressed = pressedPadButtons();
+    const fresh = [...pressed].find((index) => !listenBaseline.has(index));
+    listenBaseline = pressed;
+    if (fresh !== undefined && listeningRow) {
+      const key = bindingKey(listeningRow);
+      if (key === "star") bindings.star = fresh;
+      else bindings.lanes[key] = fresh;
+      renderBindings();
+      stopListening("Saved. Click another row to remap more buttons.");
+      saveBindings();
+      return;
+    }
+    listenFrame = requestAnimationFrame(listenForButton);
+  }
+
+  function saveBindings() {
+    try {
+      localStorage.setItem(bindingsStorageKey, JSON.stringify(bindings));
+    } catch {
+      bindingHint.textContent = "Could not save controller settings in this browser.";
+    }
+  }
+
+  for (const row of bindingRows) {
+    row.addEventListener("click", () => {
+      stopListening();
+      if (!navigator.getGamepads || ![...navigator.getGamepads()].some((pad) => pad?.connected)) {
+        bindingHint.textContent = "No controller detected. Connect it and press any button on it first.";
+        return;
+      }
+      listeningRow = row;
+      row.classList.add("is-listening");
+      row.querySelector(".binding-value").textContent = "Press a button…";
+      bindingHint.textContent = "Press the controller button now. Esc cancels.";
+      listenBaseline = pressedPadButtons();
+      listenFrame = requestAnimationFrame(listenForButton);
+    });
+  }
+
+  resetBindingsButton.addEventListener("click", () => {
+    stopListening("Controller buttons reset to default.");
+    bindings = { lanes: [...defaultBindings.lanes], star: defaultBindings.star };
+    renderBindings();
+    saveBindings();
+  });
+
 
   function selectMenu(index) {
     selectedMenuIndex = (index + menuButtons.length) % menuButtons.length;
@@ -1487,6 +1715,9 @@
     combo = 0;
     bestCombo = 0;
     rock = 50;
+    starPower = 0;
+    starActive = false;
+    previousStarPressed = false;
     activeLanes.clear();
     keyboardLanes.clear();
     gamepadLanes.clear();
@@ -1772,7 +2003,7 @@
   }
 
   function updateSustains(elapsed, now) {
-    const multiplier = Math.min(4, 1 + Math.floor(combo / 10));
+    const multiplier = currentMultiplier();
     for (let index = chartWindowStart; index < chart.length; index += 1) {
       const note = chart[index];
       if (note.time > elapsed + approachMs) break;
@@ -1881,12 +2112,14 @@
         && elapsed > note.time + settings[selectedDifficulty].hitWindow) {
         note.missed = true;
         note.tailsDead = true;
+        failStarPhrase(note);
         combo = 0;
         if (currentMode !== "training" && !noFailMode) rock = Math.max(0, rock - 5);
-          playMissScratch();
+        playMissScratch();
       }
     }
     updateSustains(elapsed, now);
+    updateStarPower(elapsed);
     updateHud();
     draw(elapsed, now);
 
@@ -1981,14 +2214,19 @@
     const pads = navigator.getGamepads();
     const pressedLanes = new Set();
     let connected = false;
+    let starPressed = false;
     for (const pad of pads) {
       if (!pad || !pad.connected) continue;
       connected = true;
-      for (let lane = 0; lane < gamepadButtons.length; lane += 1) {
-        const button = pad.buttons[gamepadButtons[lane]];
+      for (let lane = 0; lane < laneCount; lane += 1) {
+        const button = pad.buttons[bindings.lanes[lane]];
         if (button && (button.pressed || button.value > 0.5)) pressedLanes.add(lane);
       }
+      const starButton = pad.buttons[bindings.star];
+      if (starButton && (starButton.pressed || starButton.value > 0.5)) starPressed = true;
     }
+    if (starPressed && !previousStarPressed) activateStarPower();
+    previousStarPressed = starPressed;
 
     gamepadLanes.clear();
     for (const lane of pressedLanes) gamepadLanes.add(lane);
@@ -2044,6 +2282,7 @@
       && target.lanes.every((lane) => pressedLanes.has(lane));
     if (!matchingFrets) {
       target.tailsDead = true;
+      failStarPhrase(target);
       combo = 0;
       if (currentMode !== "training" && !noFailMode) rock = Math.max(0, rock - 7);
       playMissScratch();
@@ -2052,11 +2291,12 @@
       return;
     }
 
-    const multiplier = Math.min(4, 1 + Math.floor(combo / 10));
+    const multiplier = currentMultiplier();
     combo += 1;
     bestCombo = Math.max(bestCombo, combo);
     const points = smallestDifference <= 55 ? 100 : smallestDifference <= 110 ? 75 : 50;
     score += points * multiplier;
+    scoreStarNote(target);
     rock = Math.min(100, rock + 1.6);
     for (const lane of target.lanes) playHitGuitar(lane);
     for (const lane of target.lanes) laneHitUntil[lane] = performance.now() + 170;
@@ -2209,6 +2449,11 @@
         if (event.key === "q" || event.key === "Q") quitToMenu();
         return;
       }
+      if (event.key === " " && !event.repeat) {
+        event.preventDefault();
+        activateStarPower();
+        return;
+      }
       const lane = laneKeys.indexOf(event.key.toLowerCase());
       if (lane >= 0 && !event.repeat) {
         event.preventDefault();
@@ -2226,8 +2471,13 @@
         event.preventDefault();
         activateMenuAction(menuButtons[selectedMenuIndex].dataset.action);
       }
+    } else if (event.key === "Escape" && listeningRow) {
+      event.preventDefault();
+      stopListening("Cancelled.");
+      renderBindings();
     } else if (event.key === "Escape" && resultsOverlay.hidden && currentScreen !== "menu") {
       event.preventDefault();
+      stopListening();
       showScreen("menu");
     }
   });

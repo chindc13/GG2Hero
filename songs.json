@@ -8,68 +8,1196 @@
       "type": "practice"
     },
     {
-      "id": "shout",
-      "title": "Shout at the Devil",
-      "artist": "Mötley Crüe",
-      "audioUrl": "songs/Motley%20Crue%20-%20Shout%20at%20the%20Devil%20(Beenox%2C%20%20Neversoft)/song.mp3",
-      "midiUrl": "songs/Motley%20Crue%20-%20Shout%20at%20the%20Devil%20(Beenox%2C%20%20Neversoft)/notes.mid",
-      "albumArtUrl": "songs/Motley%20Crue%20-%20Shout%20at%20the%20Devil%20(Beenox%2C%20%20Neversoft)/album.jpg"
+      "id": "gh2-bonus-all-that-remains-six",
+      "title": "Six",
+      "artist": "All That Remains",
+      "audioUrl": "songs/gh2/Bonus/All%20That%20Remains%20-%20Six/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/All%20That%20Remains%20-%20Six/guitar.ogg",
+        "songs/gh2/Bonus/All%20That%20Remains%20-%20Six/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/All%20That%20Remains%20-%20Six/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/All%20That%20Remains%20-%20Six/album.png"
     },
     {
-      "id": "heart-shaped",
-      "title": "Heart-Shaped Box",
-      "artist": "Nirvana",
-      "audioUrl": "songs/Nirvana%20-%20Heart-Shaped%20Box%20(Harmonix)/song.mp3",
-      "midiUrl": "songs/Nirvana%20-%20Heart-Shaped%20Box%20(Harmonix)/notes.mid",
-      "albumArtUrl": "songs/Nirvana%20-%20Heart-Shaped%20Box%20(Harmonix)/album.jpg"
+      "id": "gh2-bonus-anarchy-club-collide",
+      "title": "Collide",
+      "artist": "Anarchy Club",
+      "audioUrl": "songs/gh2/Bonus/Anarchy%20Club%20-%20Collide/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Anarchy%20Club%20-%20Collide/guitar.ogg",
+        "songs/gh2/Bonus/Anarchy%20Club%20-%20Collide/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Anarchy%20Club%20-%20Collide/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Anarchy%20Club%20-%20Collide/album.png"
     },
     {
-      "id": "surrender",
-      "title": "Surrender (Live)",
-      "artist": "Cheap Trick",
-      "audioUrl": "songs/Cheap%20Trick%20-%20Surrender%20(Live)%20(Harmonix)/song.mp3",
-      "midiUrl": "songs/Cheap%20Trick%20-%20Surrender%20(Live)%20(Harmonix)/notes.mid",
-      "albumArtUrl": "songs/Cheap%20Trick%20-%20Surrender%20(Live)%20(Harmonix)/album.jpg"
+      "id": "gh2-bonus-bang-camaro-push-push-lady-lightning",
+      "title": "Push Push (Lady Lightning)",
+      "artist": "Bang Camaro",
+      "audioUrl": "songs/gh2/Bonus/Bang%20Camaro%20-%20Push%20Push%20%28Lady%20Lightning%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Bang%20Camaro%20-%20Push%20Push%20%28Lady%20Lightning%29/guitar.ogg",
+        "songs/gh2/Bonus/Bang%20Camaro%20-%20Push%20Push%20%28Lady%20Lightning%29/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Bang%20Camaro%20-%20Push%20Push%20%28Lady%20Lightning%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Bang%20Camaro%20-%20Push%20Push%20%28Lady%20Lightning%29/album.png"
     },
     {
-      "id": "carry-on",
-      "title": "Carry On Wayward Son",
-      "artist": "Kansas",
-      "audioUrl": "songs/Kansas%20-%20Carry%20on%20Wayward%20Son%20(Harmonix)/song.mp3",
-      "midiUrl": "songs/Kansas%20-%20Carry%20on%20Wayward%20Son%20(Harmonix)/notes.mid",
-      "albumArtUrl": "songs/Kansas%20-%20Carry%20on%20Wayward%20Son%20(Harmonix)/album.jpg"
+      "id": "gh2-bonus-brian-kahanek-gemini",
+      "title": "Gemini",
+      "artist": "Brian Kahanek",
+      "audioUrl": "songs/gh2/Bonus/Brian%20Kahanek%20-%20Gemini/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Brian%20Kahanek%20-%20Gemini/guitar.ogg",
+        "songs/gh2/Bonus/Brian%20Kahanek%20-%20Gemini/bass.ogg",
+        "songs/gh2/Bonus/Brian%20Kahanek%20-%20Gemini/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Brian%20Kahanek%20-%20Gemini/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Brian%20Kahanek%20-%20Gemini/album.png"
     },
     {
-      "id": "sweet-child",
-      "title": "Sweet Child o' Mine",
-      "artist": "Guns N' Roses",
-      "audioUrl": "songs/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine%20(Unknown%20Charter)/guitar.mp3",
-      "midiUrl": "songs/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine%20(Unknown%20Charter)/notes.mid",
-      "albumArtUrl": "songs/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine%20(Unknown%20Charter)/album.jpg"
+      "id": "gh2-bonus-buckethead-jordan",
+      "title": "Jordan",
+      "artist": "Buckethead",
+      "audioUrl": "songs/gh2/Bonus/Buckethead%20-%20Jordan/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Buckethead%20-%20Jordan/guitar.ogg",
+        "songs/gh2/Bonus/Buckethead%20-%20Jordan/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Buckethead%20-%20Jordan/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Buckethead%20-%20Jordan/album.png"
     },
     {
-      "id": "hangar-18",
-      "title": "Hangar 18",
-      "artist": "Megadeth",
-      "audioUrl": "songs/Megadeth%20-%20Hangar%2018%20(josh3d)/guitar.mp3",
-      "chartUrl": "songs/Megadeth%20-%20Hangar%2018%20(josh3d)/notes.chart",
-      "albumArtUrl": "songs/Megadeth%20-%20Hangar%2018%20(josh3d)/album.jpg"
+      "id": "gh2-bonus-count-zero-radium-eyes",
+      "title": "Radium Eyes",
+      "artist": "Count Zero",
+      "audioUrl": "songs/gh2/Bonus/Count%20Zero%20-%20Radium%20Eyes/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Count%20Zero%20-%20Radium%20Eyes/guitar.ogg",
+        "songs/gh2/Bonus/Count%20Zero%20-%20Radium%20Eyes/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Count%20Zero%20-%20Radium%20Eyes/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Count%20Zero%20-%20Radium%20Eyes/album.png"
     },
     {
-      "id": "free-bird",
-      "title": "Free Bird",
-      "artist": "Lynyrd Skynyrd",
-      "audioUrl": "songs/Lynyrd%20Skynyrd%20-%20Free%20Bird%20(Harmonix)/song.mp3",
-      "midiUrl": "songs/Lynyrd%20Skynyrd%20-%20Free%20Bird%20(Harmonix)/notes.mid",
-      "albumArtUrl": "songs/Lynyrd%20Skynyrd%20-%20Free%20Bird%20(Harmonix)/album.jpg"
+      "id": "gh2-bonus-dethklok-thunderhorse",
+      "title": "Thunderhorse",
+      "artist": "Dethklok",
+      "audioUrl": "songs/gh2/Bonus/Dethklok%20-%20Thunderhorse/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Dethklok%20-%20Thunderhorse/guitar.ogg",
+        "songs/gh2/Bonus/Dethklok%20-%20Thunderhorse/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Dethklok%20-%20Thunderhorse/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Dethklok%20-%20Thunderhorse/album.png"
     },
     {
-      "id": "war-pigs",
+      "id": "gh2-bonus-drist-arterial-black",
+      "title": "Arterial Black",
+      "artist": "Drist",
+      "audioUrl": "songs/gh2/Bonus/Drist%20-%20Arterial%20Black/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Drist%20-%20Arterial%20Black/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Drist%20-%20Arterial%20Black/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Drist%20-%20Arterial%20Black/album.png"
+    },
+    {
+      "id": "gh2-bonus-drist-arterial-black-co-op",
+      "title": "Arterial Black (Co-op)",
+      "artist": "Drist",
+      "audioUrl": "songs/gh2/Bonus/Drist%20-%20Arterial%20Black%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Drist%20-%20Arterial%20Black%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Bonus/Drist%20-%20Arterial%20Black%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Bonus/Drist%20-%20Arterial%20Black%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Drist%20-%20Arterial%20Black%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Drist%20-%20Arterial%20Black%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-bonus-every-time-i-die-the-new-black",
+      "title": "The New Black",
+      "artist": "Every Time I Die",
+      "audioUrl": "songs/gh2/Bonus/Every%20Time%20I%20Die%20-%20The%20New%20Black/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Every%20Time%20I%20Die%20-%20The%20New%20Black/guitar.ogg",
+        "songs/gh2/Bonus/Every%20Time%20I%20Die%20-%20The%20New%20Black/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Every%20Time%20I%20Die%20-%20The%20New%20Black/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Every%20Time%20I%20Die%20-%20The%20New%20Black/album.png"
+    },
+    {
+      "id": "gh2-bonus-freezepop-less-talk-more-rokk",
+      "title": "Less Talk More Rokk",
+      "artist": "FreezePop",
+      "audioUrl": "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk/album.png"
+    },
+    {
+      "id": "gh2-bonus-freezepop-less-talk-more-rokk-co-op",
+      "title": "Less Talk More Rokk (Co-op)",
+      "artist": "FreezePop",
+      "audioUrl": "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Freezepop%20-%20Less%20Talk%20More%20Rokk%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-bonus-honest-bob-and-the-factory-to-dealer-incentives-soy-bomb",
+      "title": "Soy Bomb",
+      "artist": "Honest Bob and the Factory-to-Dealer Incentives",
+      "audioUrl": "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb/album.png"
+    },
+    {
+      "id": "gh2-bonus-honest-bob-and-the-factory-to-dealer-incentives-soy-bomb-co-op",
+      "title": "Soy Bomb (Co-op)",
+      "artist": "Honest Bob and the Factory-to-Dealer Incentives",
+      "audioUrl": "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Honest%20Bob%20and%20the%20Factory-to-Dealer%20Incentives%20-%20Soy%20Bomb%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-bonus-made-in-mexico-yes-we-can",
+      "title": "Yes We Can",
+      "artist": "Made in Mexico",
+      "audioUrl": "songs/gh2/Bonus/Made%20in%20Mexico%20-%20Yes%20We%20Can/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Made%20in%20Mexico%20-%20Yes%20We%20Can/guitar.ogg",
+        "songs/gh2/Bonus/Made%20in%20Mexico%20-%20Yes%20We%20Can/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Made%20in%20Mexico%20-%20Yes%20We%20Can/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Made%20in%20Mexico%20-%20Yes%20We%20Can/album.png"
+    },
+    {
+      "id": "gh2-bonus-megasus-red-lottery",
+      "title": "Red Lottery",
+      "artist": "Megasus",
+      "audioUrl": "songs/gh2/Bonus/Megasus%20-%20Red%20Lottery/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Megasus%20-%20Red%20Lottery/guitar.ogg",
+        "songs/gh2/Bonus/Megasus%20-%20Red%20Lottery/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Megasus%20-%20Red%20Lottery/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Megasus%20-%20Red%20Lottery/album.png"
+    },
+    {
+      "id": "gh2-bonus-noble-rot-kicked-to-the-curb",
+      "title": "Kicked To The Curb",
+      "artist": "Noble Rot",
+      "audioUrl": "songs/gh2/Bonus/Noble%20Rot%20-%20Kicked%20to%20the%20Curb/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Noble%20Rot%20-%20Kicked%20to%20the%20Curb/guitar.ogg",
+        "songs/gh2/Bonus/Noble%20Rot%20-%20Kicked%20to%20the%20Curb/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Noble%20Rot%20-%20Kicked%20to%20the%20Curb/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Noble%20Rot%20-%20Kicked%20to%20the%20Curb/album.png"
+    },
+    {
+      "id": "gh2-bonus-ounce-of-self-drink-up",
+      "title": "Drink Up",
+      "artist": "Ounce of Self",
+      "audioUrl": "songs/gh2/Bonus/Ounce%20of%20Self%20-%20Drink%20Up/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Ounce%20of%20Self%20-%20Drink%20Up/guitar.ogg",
+        "songs/gh2/Bonus/Ounce%20of%20Self%20-%20Drink%20Up/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Ounce%20of%20Self%20-%20Drink%20Up/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Ounce%20of%20Self%20-%20Drink%20Up/album.png"
+    },
+    {
+      "id": "gh2-bonus-shadows-fall-the-light-that-blinds",
+      "title": "The Light That Blinds",
+      "artist": "Shadows Fall",
+      "audioUrl": "songs/gh2/Bonus/Shadows%20Fall%20-%20The%20Light%20That%20Blinds/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Shadows%20Fall%20-%20The%20Light%20That%20Blinds/guitar.ogg",
+        "songs/gh2/Bonus/Shadows%20Fall%20-%20The%20Light%20That%20Blinds/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Shadows%20Fall%20-%20The%20Light%20That%20Blinds/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Shadows%20Fall%20-%20The%20Light%20That%20Blinds/album.png"
+    },
+    {
+      "id": "gh2-bonus-strong-bad-trogdor",
+      "title": "Trogdor",
+      "artist": "Strong Bad",
+      "audioUrl": "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor/album.png"
+    },
+    {
+      "id": "gh2-bonus-strong-bad-trogdor-co-op",
+      "title": "Trogdor (Co-op)",
+      "artist": "Strong Bad",
+      "audioUrl": "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Strong%20Bad%20-%20Trogdor%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-bonus-that-handsome-devil-elephant-bones",
+      "title": "Elephant Bones",
+      "artist": "That Handsome Devil",
+      "audioUrl": "songs/gh2/Bonus/That%20Handsome%20Devil%20-%20Elephant%20Bones/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/That%20Handsome%20Devil%20-%20Elephant%20Bones/guitar.ogg",
+        "songs/gh2/Bonus/That%20Handsome%20Devil%20-%20Elephant%20Bones/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/That%20Handsome%20Devil%20-%20Elephant%20Bones/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/That%20Handsome%20Devil%20-%20Elephant%20Bones/album.png"
+    },
+    {
+      "id": "gh2-bonus-the-acro-brats-laughtrack",
+      "title": "Laughtrack",
+      "artist": "The Acro-brats",
+      "audioUrl": "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack/album.png"
+    },
+    {
+      "id": "gh2-bonus-the-acro-brats-laughtrack-co-op",
+      "title": "Laughtrack (Co-op)",
+      "artist": "The Acro-brats",
+      "audioUrl": "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/The%20Acro-Brats%20-%20Laughtrack%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-bonus-the-amazing-crowns-mr-fix-it",
+      "title": "Mr. Fix It",
+      "artist": "The Amazing Crowns",
+      "audioUrl": "songs/gh2/Bonus/The%20Amazing%20Crowns%20-%20Mr.%20Fix%20It/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/The%20Amazing%20Crowns%20-%20Mr.%20Fix%20It/guitar.ogg",
+        "songs/gh2/Bonus/The%20Amazing%20Crowns%20-%20Mr.%20Fix%20It/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/The%20Amazing%20Crowns%20-%20Mr.%20Fix%20It/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/The%20Amazing%20Crowns%20-%20Mr.%20Fix%20It/album.png"
+    },
+    {
+      "id": "gh2-bonus-the-breaking-wheel-one-for-the-road",
+      "title": "One For the Road",
+      "artist": "Breaking Wheel",
+      "audioUrl": "songs/gh2/Bonus/The%20Breaking%20Wheel%20-%20One%20for%20the%20Road/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/The%20Breaking%20Wheel%20-%20One%20for%20the%20Road/guitar.ogg",
+        "songs/gh2/Bonus/The%20Breaking%20Wheel%20-%20One%20for%20the%20Road/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/The%20Breaking%20Wheel%20-%20One%20for%20the%20Road/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/The%20Breaking%20Wheel%20-%20One%20for%20the%20Road/album.png"
+    },
+    {
+      "id": "gh2-bonus-the-last-vegas-raw-dog",
+      "title": "Raw Dog",
+      "artist": "The Last Vegas",
+      "audioUrl": "songs/gh2/Bonus/The%20Last%20Vegas%20-%20Raw%20Dog/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/The%20Last%20Vegas%20-%20Raw%20Dog/guitar.ogg",
+        "songs/gh2/Bonus/The%20Last%20Vegas%20-%20Raw%20Dog/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/The%20Last%20Vegas%20-%20Raw%20Dog/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/The%20Last%20Vegas%20-%20Raw%20Dog/album.png"
+    },
+    {
+      "id": "gh2-bonus-the-neighborhoods-parasite",
+      "title": "Parasite",
+      "artist": "The Neighborhoods",
+      "audioUrl": "songs/gh2/Bonus/The%20Neighborhoods%20-%20Parasite/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/The%20Neighborhoods%20-%20Parasite/guitar.ogg",
+        "songs/gh2/Bonus/The%20Neighborhoods%20-%20Parasite/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/The%20Neighborhoods%20-%20Parasite/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/The%20Neighborhoods%20-%20Parasite/album.png"
+    },
+    {
+      "id": "gh2-bonus-vagiant-ftk",
+      "title": "FTK",
+      "artist": "Vagiant",
+      "audioUrl": "songs/gh2/Bonus/VAGIANT%20-%20FTK/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/VAGIANT%20-%20FTK/guitar.ogg",
+        "songs/gh2/Bonus/VAGIANT%20-%20FTK/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/VAGIANT%20-%20FTK/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/VAGIANT%20-%20FTK/album.png"
+    },
+    {
+      "id": "gh2-bonus-valient-thorr-fall-of-pangea",
+      "title": "Fall Of Pangea",
+      "artist": "Valient Thorr",
+      "audioUrl": "songs/gh2/Bonus/Valient%20Thorr%20-%20Fall%20of%20Pangea/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Valient%20Thorr%20-%20Fall%20of%20Pangea/guitar.ogg",
+        "songs/gh2/Bonus/Valient%20Thorr%20-%20Fall%20of%20Pangea/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Valient%20Thorr%20-%20Fall%20of%20Pangea/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Valient%20Thorr%20-%20Fall%20of%20Pangea/album.png"
+    },
+    {
+      "id": "gh2-bonus-voivod-x-stream",
+      "title": "X-Stream",
+      "artist": "Voivod",
+      "audioUrl": "songs/gh2/Bonus/Voivod%20-%20X-Stream/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Bonus/Voivod%20-%20X-Stream/guitar.ogg",
+        "songs/gh2/Bonus/Voivod%20-%20X-Stream/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Bonus/Voivod%20-%20X-Stream/notes.mid",
+      "albumArtUrl": "songs/gh2/Bonus/Voivod%20-%20X-Stream/album.png"
+    },
+    {
+      "id": "gh2-quickplay-aerosmith-last-child",
+      "title": "Last Child",
+      "artist": "Aerosmith (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child/album.png"
+    },
+    {
+      "id": "gh2-quickplay-aerosmith-last-child-co-op",
+      "title": "Last Child (Co-op)",
+      "artist": "Aerosmith (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Aerosmith%20-%20Last%20Child%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-alice-cooper-billion-dollar-babies",
+      "title": "Billion Dollar Babies",
+      "artist": "Alice Cooper (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Alice%20Cooper%20-%20Billion%20Dollar%20Babies/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Alice%20Cooper%20-%20Billion%20Dollar%20Babies/guitar.ogg",
+        "songs/gh2/Quickplay/Alice%20Cooper%20-%20Billion%20Dollar%20Babies/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Alice%20Cooper%20-%20Billion%20Dollar%20Babies/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Alice%20Cooper%20-%20Billion%20Dollar%20Babies/album.png"
+    },
+    {
+      "id": "gh2-quickplay-alice-in-chains-them-bones",
+      "title": "Them Bones",
+      "artist": "Alice in Chains (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Alice%20in%20Chains%20-%20Them%20Bones/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Alice%20in%20Chains%20-%20Them%20Bones/guitar.ogg",
+        "songs/gh2/Quickplay/Alice%20in%20Chains%20-%20Them%20Bones/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Alice%20in%20Chains%20-%20Them%20Bones/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Alice%20in%20Chains%20-%20Them%20Bones/album.png"
+    },
+    {
+      "id": "gh2-quickplay-anthrax-madhouse",
+      "title": "Madhouse",
+      "artist": "Anthrax (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Anthrax%20-%20Madhouse/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Anthrax%20-%20Madhouse/guitar.ogg",
+        "songs/gh2/Quickplay/Anthrax%20-%20Madhouse/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Anthrax%20-%20Madhouse/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Anthrax%20-%20Madhouse/album.png"
+    },
+    {
+      "id": "gh2-quickplay-avenged-sevenfold-beast-and-the-harlot",
+      "title": "Beast And the Harlot",
+      "artist": "Avenged Sevenfold (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Avenged%20Sevenfold%20-%20Beast%20and%20the%20Harlot/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Avenged%20Sevenfold%20-%20Beast%20and%20the%20Harlot/guitar.ogg",
+        "songs/gh2/Quickplay/Avenged%20Sevenfold%20-%20Beast%20and%20the%20Harlot/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Avenged%20Sevenfold%20-%20Beast%20and%20the%20Harlot/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Avenged%20Sevenfold%20-%20Beast%20and%20the%20Harlot/album.png"
+    },
+    {
+      "id": "gh2-quickplay-black-sabbath-war-pigs",
       "title": "War Pigs",
-      "artist": "Black Sabbath",
-      "audioUrl": "songs/Black%20Sabbath%20(WaveGroup)%20-%20War%20Pigs%20(Harmonix)/song.mp3",
-      "midiUrl": "songs/Black%20Sabbath%20(WaveGroup)%20-%20War%20Pigs%20(Harmonix)/notes.mid",
-      "albumArtUrl": "songs/Black%20Sabbath%20(WaveGroup)%20-%20War%20Pigs%20(Harmonix)/album.jpg"
+      "artist": "Black Sabbath (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Black%20Sabbath%20-%20War%20Pigs/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Black%20Sabbath%20-%20War%20Pigs/guitar.ogg",
+        "songs/gh2/Quickplay/Black%20Sabbath%20-%20War%20Pigs/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Black%20Sabbath%20-%20War%20Pigs/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Black%20Sabbath%20-%20War%20Pigs/album.png"
+    },
+    {
+      "id": "gh2-quickplay-cheap-trick-surrender",
+      "title": "Surrender",
+      "artist": "Cheap Trick (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Cheap%20Trick%20-%20Surrender/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Cheap%20Trick%20-%20Surrender/guitar.ogg",
+        "songs/gh2/Quickplay/Cheap%20Trick%20-%20Surrender/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Cheap%20Trick%20-%20Surrender/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Cheap%20Trick%20-%20Surrender/album.png"
+    },
+    {
+      "id": "gh2-quickplay-danzig-mother",
+      "title": "Mother",
+      "artist": "Danzig (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Danzig%20-%20Mother/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Danzig%20-%20Mother/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Danzig%20-%20Mother/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Danzig%20-%20Mother/album.png"
+    },
+    {
+      "id": "gh2-quickplay-danzig-mother-co-op",
+      "title": "Mother (Co-op)",
+      "artist": "Danzig (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Danzig%20-%20Mother%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Danzig%20-%20Mother%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Danzig%20-%20Mother%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Danzig%20-%20Mother%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Danzig%20-%20Mother%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Danzig%20-%20Mother%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-deep-purple-hush",
+      "title": "Hush",
+      "artist": "Deep Purple (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Deep%20Purple%20-%20Hush/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Deep%20Purple%20-%20Hush/guitar.ogg",
+        "songs/gh2/Quickplay/Deep%20Purple%20-%20Hush/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Deep%20Purple%20-%20Hush/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Deep%20Purple%20-%20Hush/album.png"
+    },
+    {
+      "id": "gh2-quickplay-dick-dale-misirlou",
+      "title": "Misirlou",
+      "artist": "Dick Dale (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Dick%20Dale%20-%20Misirlou/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Dick%20Dale%20-%20Misirlou/guitar.ogg",
+        "songs/gh2/Quickplay/Dick%20Dale%20-%20Misirlou/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Dick%20Dale%20-%20Misirlou/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Dick%20Dale%20-%20Misirlou/album.png"
+    },
+    {
+      "id": "gh2-quickplay-foo-fighters-monkey-wrench",
+      "title": "Monkey Wrench",
+      "artist": "Foo Fighters (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Foo%20Fighters%20-%20Monkey%20Wrench/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Foo%20Fighters%20-%20Monkey%20Wrench/guitar.ogg",
+        "songs/gh2/Quickplay/Foo%20Fighters%20-%20Monkey%20Wrench/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Foo%20Fighters%20-%20Monkey%20Wrench/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Foo%20Fighters%20-%20Monkey%20Wrench/album.png"
+    },
+    {
+      "id": "gh2-quickplay-guns-n-roses-sweet-child-o-mine",
+      "title": "Sweet Child O' Mine",
+      "artist": "Guns n' Roses (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine/guitar.ogg",
+        "songs/gh2/Quickplay/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine/album.png"
+    },
+    {
+      "id": "gh2-quickplay-heart-crazy-on-you",
+      "title": "Crazy on You",
+      "artist": "Heart (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Heart%20-%20Crazy%20on%20You/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Heart%20-%20Crazy%20on%20You/guitar.ogg",
+        "songs/gh2/Quickplay/Heart%20-%20Crazy%20on%20You/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Heart%20-%20Crazy%20on%20You/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Heart%20-%20Crazy%20on%20You/album.png"
+    },
+    {
+      "id": "gh2-quickplay-iggy-pop-and-the-stooges-search-and-destroy",
+      "title": "Search and Destroy",
+      "artist": "Iggy Pop and the Stooges (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Iggy%20Pop%20and%20the%20Stooges%20-%20Search%20and%20Destroy/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Iggy%20Pop%20and%20the%20Stooges%20-%20Search%20and%20Destroy/guitar.ogg",
+        "songs/gh2/Quickplay/Iggy%20Pop%20and%20the%20Stooges%20-%20Search%20and%20Destroy/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Iggy%20Pop%20and%20the%20Stooges%20-%20Search%20and%20Destroy/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Iggy%20Pop%20and%20the%20Stooges%20-%20Search%20and%20Destroy/album.png"
+    },
+    {
+      "id": "gh2-quickplay-iron-maiden-the-trooper",
+      "title": "The Trooper",
+      "artist": "Iron Maiden (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Iron%20Maiden%20-%20The%20Trooper/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Iron%20Maiden%20-%20The%20Trooper/guitar.ogg",
+        "songs/gh2/Quickplay/Iron%20Maiden%20-%20The%20Trooper/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Iron%20Maiden%20-%20The%20Trooper/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Iron%20Maiden%20-%20The%20Trooper/album.png"
+    },
+    {
+      "id": "gh2-quickplay-jane-s-addiction-stop",
+      "title": "Stop",
+      "artist": "Jane's Addiction",
+      "audioUrl": "songs/gh2/Quickplay/Jane%27s%20Addiction%20-%20Stop/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Jane%27s%20Addiction%20-%20Stop/guitar.ogg",
+        "songs/gh2/Quickplay/Jane%27s%20Addiction%20-%20Stop/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Jane%27s%20Addiction%20-%20Stop/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Jane%27s%20Addiction%20-%20Stop/album.png"
+    },
+    {
+      "id": "gh2-quickplay-kansas-carry-on-wayward-son",
+      "title": "Carry On Wayward Son",
+      "artist": "Kansas (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Kansas%20-%20Carry%20On%20Wayward%20Son/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Kansas%20-%20Carry%20On%20Wayward%20Son/guitar.ogg",
+        "songs/gh2/Quickplay/Kansas%20-%20Carry%20On%20Wayward%20Son/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Kansas%20-%20Carry%20On%20Wayward%20Son/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Kansas%20-%20Carry%20On%20Wayward%20Son/album.png"
+    },
+    {
+      "id": "gh2-quickplay-kiss-strutter",
+      "title": "Strutter",
+      "artist": "Kiss (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Kiss%20-%20Strutter/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Kiss%20-%20Strutter/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Kiss%20-%20Strutter/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Kiss%20-%20Strutter/album.png"
+    },
+    {
+      "id": "gh2-quickplay-kiss-strutter-co-op",
+      "title": "Strutter (Co-op)",
+      "artist": "Kiss (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Kiss%20-%20Strutter%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Kiss%20-%20Strutter%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Kiss%20-%20Strutter%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Kiss%20-%20Strutter%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Kiss%20-%20Strutter%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Kiss%20-%20Strutter%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-lamb-of-god-laid-to-rest",
+      "title": "Laid To Rest",
+      "artist": "Lamb of God (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest/album.png"
+    },
+    {
+      "id": "gh2-quickplay-lamb-of-god-laid-to-rest-co-op",
+      "title": "Laid To Rest (Co-op)",
+      "artist": "Lamb of God (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Lamb%20of%20God%20-%20Laid%20to%20Rest%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-lynyrd-skynyrd-free-bird",
+      "title": "Free Bird",
+      "artist": "Lynyrd Skynyrd (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird/album.png"
+    },
+    {
+      "id": "gh2-quickplay-lynyrd-skynyrd-free-bird-co-op",
+      "title": "Free Bird (Co-op)",
+      "artist": "Lynyrd Skynyrd (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Lynyrd%20Skynyrd%20-%20Free%20Bird%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-matthew-sweet-girlfriend",
+      "title": "Girlfriend",
+      "artist": "Matthew Sweet (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend/album.png"
+    },
+    {
+      "id": "gh2-quickplay-matthew-sweet-girlfriend-co-op",
+      "title": "Girlfriend (Co-op)",
+      "artist": "Matthew Sweet (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Matthew%20Sweet%20-%20Girlfriend%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-megadeth-hangar-18",
+      "title": "Hangar 18",
+      "artist": "Megadeth (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Megadeth%20-%20Hangar%2018/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Megadeth%20-%20Hangar%2018/guitar.ogg",
+        "songs/gh2/Quickplay/Megadeth%20-%20Hangar%2018/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Megadeth%20-%20Hangar%2018/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Megadeth%20-%20Hangar%2018/album.png"
+    },
+    {
+      "id": "gh2-quickplay-my-chemical-romance-dead",
+      "title": "Dead!",
+      "artist": "My Chemical Romance",
+      "audioUrl": "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21/album.png"
+    },
+    {
+      "id": "gh2-quickplay-my-chemical-romance-dead-co-op",
+      "title": "Dead! (Co-op)",
+      "artist": "My Chemical Romance",
+      "audioUrl": "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/My%20Chemical%20Romance%20-%20Dead%21%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-motley-crue-shout-at-the-devil",
+      "title": "Shout At The Devil",
+      "artist": "Mötley Crüe (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/M%C3%B6tley%20Cr%C3%BCe%20-%20Shout%20at%20the%20Devil/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/M%C3%B6tley%20Cr%C3%BCe%20-%20Shout%20at%20the%20Devil/guitar.ogg",
+        "songs/gh2/Quickplay/M%C3%B6tley%20Cr%C3%BCe%20-%20Shout%20at%20the%20Devil/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/M%C3%B6tley%20Cr%C3%BCe%20-%20Shout%20at%20the%20Devil/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/M%C3%B6tley%20Cr%C3%BCe%20-%20Shout%20at%20the%20Devil/album.png"
+    },
+    {
+      "id": "gh2-quickplay-nirvana-heart-shaped-box",
+      "title": "Heart-Shaped Box",
+      "artist": "Nirvana (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Nirvana%20-%20Heart-Shaped%20Box/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Nirvana%20-%20Heart-Shaped%20Box/guitar.ogg",
+        "songs/gh2/Quickplay/Nirvana%20-%20Heart-Shaped%20Box/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Nirvana%20-%20Heart-Shaped%20Box/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Nirvana%20-%20Heart-Shaped%20Box/album.png"
+    },
+    {
+      "id": "gh2-quickplay-pearl-jam-life-wasted",
+      "title": "Life Wasted",
+      "artist": "Pearl Jam (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Pearl%20Jam%20-%20Life%20Wasted/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Pearl%20Jam%20-%20Life%20Wasted/guitar.ogg",
+        "songs/gh2/Quickplay/Pearl%20Jam%20-%20Life%20Wasted/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Pearl%20Jam%20-%20Life%20Wasted/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Pearl%20Jam%20-%20Life%20Wasted/album.png"
+    },
+    {
+      "id": "gh2-quickplay-primus-john-the-fisherman",
+      "title": "John the Fisherman",
+      "artist": "Primus",
+      "audioUrl": "songs/gh2/Quickplay/Primus%20-%20John%20the%20Fisherman/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Primus%20-%20John%20the%20Fisherman/guitar.ogg",
+        "songs/gh2/Quickplay/Primus%20-%20John%20the%20Fisherman/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Primus%20-%20John%20the%20Fisherman/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Primus%20-%20John%20the%20Fisherman/album.png"
+    },
+    {
+      "id": "gh2-quickplay-rage-against-the-machine-killing-in-the-name",
+      "title": "Killing In The Name",
+      "artist": "Rage Against The Machine (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Rage%20Against%20the%20Machine%20-%20Killing%20in%20the%20Name/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Rage%20Against%20the%20Machine%20-%20Killing%20in%20the%20Name/guitar.ogg",
+        "songs/gh2/Quickplay/Rage%20Against%20the%20Machine%20-%20Killing%20in%20the%20Name/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Rage%20Against%20the%20Machine%20-%20Killing%20in%20the%20Name/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Rage%20Against%20the%20Machine%20-%20Killing%20in%20the%20Name/album.png"
+    },
+    {
+      "id": "gh2-quickplay-rancid-salvation",
+      "title": "Salvation",
+      "artist": "Rancid (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Rancid%20-%20Salvation/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Rancid%20-%20Salvation/guitar.ogg",
+        "songs/gh2/Quickplay/Rancid%20-%20Salvation/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Rancid%20-%20Salvation/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Rancid%20-%20Salvation/album.png"
+    },
+    {
+      "id": "gh2-quickplay-reverend-horton-heat-psychobilly-freakout",
+      "title": "Psychobilly Freakout",
+      "artist": "Reverend Horton Heat (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Reverend%20Horton%20Heat%20-%20Psychobilly%20Freakout/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Reverend%20Horton%20Heat%20-%20Psychobilly%20Freakout/guitar.ogg",
+        "songs/gh2/Quickplay/Reverend%20Horton%20Heat%20-%20Psychobilly%20Freakout/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Reverend%20Horton%20Heat%20-%20Psychobilly%20Freakout/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Reverend%20Horton%20Heat%20-%20Psychobilly%20Freakout/album.png"
+    },
+    {
+      "id": "gh2-quickplay-rick-derringer-rock-and-roll-hoochie-koo",
+      "title": "Rock and Roll Hoochie Koo",
+      "artist": "Rick Derringer (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Rick%20Derringer%20-%20Rock%20and%20Roll%2C%20Hoochie%20Koo/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Rick%20Derringer%20-%20Rock%20and%20Roll%2C%20Hoochie%20Koo/guitar.ogg",
+        "songs/gh2/Quickplay/Rick%20Derringer%20-%20Rock%20and%20Roll%2C%20Hoochie%20Koo/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Rick%20Derringer%20-%20Rock%20and%20Roll%2C%20Hoochie%20Koo/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Rick%20Derringer%20-%20Rock%20and%20Roll%2C%20Hoochie%20Koo/album.png"
+    },
+    {
+      "id": "gh2-quickplay-rush-yyz",
+      "title": "YYZ",
+      "artist": "Rush (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Rush%20-%20YYZ/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Rush%20-%20YYZ/guitar.ogg",
+        "songs/gh2/Quickplay/Rush%20-%20YYZ/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Rush%20-%20YYZ/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Rush%20-%20YYZ/album.png"
+    },
+    {
+      "id": "gh2-quickplay-spinal-tap-tonight-i-m-gonna-rock-you-tonight",
+      "title": "Tonight I'm Gonna Rock You Tonight",
+      "artist": "Spinal Tap (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight/album.png"
+    },
+    {
+      "id": "gh2-quickplay-spinal-tap-tonight-i-m-gonna-rock-you-tonight-co-op",
+      "title": "Tonight I'm Gonna Rock You Tonight (Co-op)",
+      "artist": "Spinal Tap (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Spinal%20Tap%20-%20Tonight%20I%27m%20Gonna%20Rock%20You%20Tonight%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-stone-temple-pilots-trippin-on-a-hole-in-a-paper-heart",
+      "title": "Trippin' on a Hole in a Paper Heart",
+      "artist": "Stone Temple Pilots (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Stone%20Temple%20Pilots%20-%20Trippin%27%20on%20a%20Hole%20in%20a%20Paper%20Heart/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Stone%20Temple%20Pilots%20-%20Trippin%27%20on%20a%20Hole%20in%20a%20Paper%20Heart/guitar.ogg",
+        "songs/gh2/Quickplay/Stone%20Temple%20Pilots%20-%20Trippin%27%20on%20a%20Hole%20in%20a%20Paper%20Heart/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Stone%20Temple%20Pilots%20-%20Trippin%27%20on%20a%20Hole%20in%20a%20Paper%20Heart/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Stone%20Temple%20Pilots%20-%20Trippin%27%20on%20a%20Hole%20in%20a%20Paper%20Heart/album.png"
+    },
+    {
+      "id": "gh2-quickplay-stray-cats-rock-this-town",
+      "title": "Rock This Town",
+      "artist": "Stray Cats (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Stray%20Cats%20-%20Rock%20This%20Town/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Stray%20Cats%20-%20Rock%20This%20Town/guitar.ogg",
+        "songs/gh2/Quickplay/Stray%20Cats%20-%20Rock%20This%20Town/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Stray%20Cats%20-%20Rock%20This%20Town/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Stray%20Cats%20-%20Rock%20This%20Town/album.png"
+    },
+    {
+      "id": "gh2-quickplay-suicidal-tendencies-institutionalized",
+      "title": "Institutionalized",
+      "artist": "Suicidal Tendencies (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized/album.png"
+    },
+    {
+      "id": "gh2-quickplay-suicidal-tendencies-institutionalized-co-op",
+      "title": "Institutionalized (Co-op)",
+      "artist": "Suicidal Tendencies (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Suicidal%20Tendencies%20-%20Institutionalized%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-allman-brothers-band-jessica",
+      "title": "Jessica",
+      "artist": "The Allman Brothers Band (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-allman-brothers-band-jessica-co-op",
+      "title": "Jessica (Co-op)",
+      "artist": "The Allman Brothers Band (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Allman%20Brothers%20Band%20-%20Jessica%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-butthole-surfers-who-was-in-my-room-last-night",
+      "title": "Who Was In My Room Last Night?",
+      "artist": "The Butthole Surfers (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-butthole-surfers-who-was-in-my-room-last-night-co-op",
+      "title": "Who Was In My Room Last Night? (Co-op)",
+      "artist": "The Butthole Surfers (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Butthole%20Surfers%20-%20Who%20Was%20in%20My%20Room%20Last%20Night%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-living-end-carry-me-home",
+      "title": "Carry Me Home",
+      "artist": "The Living End (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Living%20End%20-%20Carry%20Me%20Home/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Living%20End%20-%20Carry%20Me%20Home/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Living%20End%20-%20Carry%20Me%20Home/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Living%20End%20-%20Carry%20Me%20Home/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Living%20End%20-%20Carry%20Me%20Home/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-police-message-in-a-bottle",
+      "title": "Message In A Bottle",
+      "artist": "The Police (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Police%20-%20Message%20in%20a%20Bottle/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Police%20-%20Message%20in%20a%20Bottle/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Police%20-%20Message%20in%20a%20Bottle/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Police%20-%20Message%20in%20a%20Bottle/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Police%20-%20Message%20in%20a%20Bottle/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-pretenders-tattooed-love-boys",
+      "title": "Tattooed Love Boys",
+      "artist": "The Pretenders (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Pretenders%20-%20Tattooed%20Love%20Boys/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Pretenders%20-%20Tattooed%20Love%20Boys/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Pretenders%20-%20Tattooed%20Love%20Boys/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Pretenders%20-%20Tattooed%20Love%20Boys/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Pretenders%20-%20Tattooed%20Love%20Boys/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-rolling-stones-can-t-you-hear-me-knockin",
+      "title": "Can't You Hear Me Knockin'",
+      "artist": "The Rolling Stones (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-rolling-stones-can-t-you-hear-me-knockin-co-op",
+      "title": "Can't You Hear Me Knockin' (Co-op)",
+      "artist": "The Rolling Stones (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin%20%28Co-op%29/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin%20%28Co-op%29/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin%20%28Co-op%29/bass.ogg",
+        "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin%20%28Co-op%29/rhythm.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin%20%28Co-op%29/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Rolling%20Stones%20-%20Can%27t%20You%20Hear%20Me%20Knockin%20%28Co-op%29/album.png"
+    },
+    {
+      "id": "gh2-quickplay-the-sword-freya",
+      "title": "Freya",
+      "artist": "The Sword (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/The%20Sword%20-%20Freya/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/The%20Sword%20-%20Freya/guitar.ogg",
+        "songs/gh2/Quickplay/The%20Sword%20-%20Freya/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/The%20Sword%20-%20Freya/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/The%20Sword%20-%20Freya/album.png"
+    },
+    {
+      "id": "gh2-quickplay-thin-lizzy-bad-reputation",
+      "title": "Bad Reputation",
+      "artist": "Thin Lizzy (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Thin%20Lizzy%20-%20Bad%20Reputation/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Thin%20Lizzy%20-%20Bad%20Reputation/guitar.ogg",
+        "songs/gh2/Quickplay/Thin%20Lizzy%20-%20Bad%20Reputation/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Thin%20Lizzy%20-%20Bad%20Reputation/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Thin%20Lizzy%20-%20Bad%20Reputation/album.png"
+    },
+    {
+      "id": "gh2-quickplay-toadies-possum-kingdom",
+      "title": "Possum Kingdom",
+      "artist": "Toadies",
+      "audioUrl": "songs/gh2/Quickplay/Toadies%20-%20Possum%20Kingdom/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Toadies%20-%20Possum%20Kingdom/guitar.ogg",
+        "songs/gh2/Quickplay/Toadies%20-%20Possum%20Kingdom/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Toadies%20-%20Possum%20Kingdom/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Toadies%20-%20Possum%20Kingdom/album.png"
+    },
+    {
+      "id": "gh2-quickplay-van-halen-you-really-got-me",
+      "title": "You Really Got Me",
+      "artist": "Van Halen (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Van%20Halen%20-%20You%20Really%20Got%20Me/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Van%20Halen%20-%20You%20Really%20Got%20Me/guitar.ogg",
+        "songs/gh2/Quickplay/Van%20Halen%20-%20You%20Really%20Got%20Me/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Van%20Halen%20-%20You%20Really%20Got%20Me/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Van%20Halen%20-%20You%20Really%20Got%20Me/album.png"
+    },
+    {
+      "id": "gh2-quickplay-warrant-cherry-pie",
+      "title": "Cherry Pie",
+      "artist": "Warrant (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Warrant%20-%20Cherry%20Pie/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Warrant%20-%20Cherry%20Pie/guitar.ogg",
+        "songs/gh2/Quickplay/Warrant%20-%20Cherry%20Pie/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Warrant%20-%20Cherry%20Pie/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Warrant%20-%20Cherry%20Pie/album.png"
+    },
+    {
+      "id": "gh2-quickplay-wolfmother-woman",
+      "title": "Woman",
+      "artist": "Wolfmother (WaveGroup)",
+      "audioUrl": "songs/gh2/Quickplay/Wolfmother%20-%20Woman/song.ogg",
+      "stemUrls": [
+        "songs/gh2/Quickplay/Wolfmother%20-%20Woman/guitar.ogg",
+        "songs/gh2/Quickplay/Wolfmother%20-%20Woman/bass.ogg"
+      ],
+      "midiUrl": "songs/gh2/Quickplay/Wolfmother%20-%20Woman/notes.mid",
+      "albumArtUrl": "songs/gh2/Quickplay/Wolfmother%20-%20Woman/album.png"
+    },
+    {
+      "id": "tutorial-basic-2-playing-notes",
+      "title": "Basic 2 Playing Notes",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/Basic%202%20Playing%20Notes/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/Basic%202%20Playing%20Notes/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/Basic%202%20Playing%20Notes/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/Basic%202%20Playing%20Notes/album.png"
+    },
+    {
+      "id": "tutorial-basic-3-different-notes",
+      "title": "Basic 3 Different Notes",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/Basic%203%20Different%20Notes/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/Basic%203%20Different%20Notes/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/Basic%203%20Different%20Notes/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/Basic%203%20Different%20Notes/album.png"
+    },
+    {
+      "id": "tutorial-basic-4-durations",
+      "title": "Basic 4 Durations",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/Basic%204%20Durations/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/Basic%204%20Durations/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/Basic%204%20Durations/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/Basic%204%20Durations/album.png"
+    },
+    {
+      "id": "tutorial-basic-5-chords",
+      "title": "Basic 5 Chords",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/Basic%205%20Chords/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/Basic%205%20Chords/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/Basic%205%20Chords/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/Basic%205%20Chords/album.png"
+    },
+    {
+      "id": "tutorial-starpower-2-combos",
+      "title": "StarPower 2 Combos",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/StarPower%202%20Combos/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/StarPower%202%20Combos/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/StarPower%202%20Combos/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/StarPower%202%20Combos/album.png"
+    },
+    {
+      "id": "tutorial-starpower-3-whammy-bar",
+      "title": "StarPower 3 Whammy Bar",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/StarPower%203%20Whammy%20Bar/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/StarPower%203%20Whammy%20Bar/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/StarPower%203%20Whammy%20Bar/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/StarPower%203%20Whammy%20Bar/album.png"
+    },
+    {
+      "id": "tutorial-starpower-4-wail",
+      "title": "StarPower 4 Wail",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/StarPower%204%20Wail/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/StarPower%204%20Wail/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/StarPower%204%20Wail/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/StarPower%204%20Wail/album.png"
+    },
+    {
+      "id": "tutorial-starpower-5-hammer-ons",
+      "title": "StarPower 5 Hammer-Ons",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/StarPower%205%20Hammer-Ons/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/StarPower%205%20Hammer-Ons/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/StarPower%205%20Hammer-Ons/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/StarPower%205%20Hammer-Ons/album.png"
+    },
+    {
+      "id": "tutorial-starpower-6-pull-offs",
+      "title": "StarPower 6 Pull-Offs",
+      "artist": "GG2 Tutorials",
+      "audioUrl": "songs/gh2tutorials/StarPower%206%20Pull-Offs/song.ogg",
+      "stemUrls": [
+        "songs/gh2tutorials/StarPower%206%20Pull-Offs/guitar.ogg"
+      ],
+      "midiUrl": "songs/gh2tutorials/StarPower%206%20Pull-Offs/notes.mid",
+      "albumArtUrl": "songs/gh2tutorials/StarPower%206%20Pull-Offs/album.png"
     }
   ]
 }

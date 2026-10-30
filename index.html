@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#100e13">
-    <title>GG2 — Guitar Game 2</title>
+    <title>GG2Hero by Chin Chin</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
@@ -12,8 +12,8 @@
       <header class="topbar">
         <div class="brand">
           <div>
-            <p class="eyebrow">Five-fret guitar challenge</p>
-            <h1>GG<span>2</span></h1>
+            <p class="eyebrow">by Chin Chin</p>
+            <h1>GG2<span>Hero</span></h1>
           </div>
         </div>
         <div class="song-label">
@@ -34,7 +34,7 @@
         </div>
       </section>
 
-      <section class="stage" aria-label="GG2 five-lane guitar game">
+      <section class="stage" aria-label="GG2Hero five-lane guitar game">
         <div class="youtube-background" id="youtube-background" hidden aria-label="Selected YouTube song video">
           <div id="youtube-player"></div>
         </div>
@@ -42,11 +42,11 @@
         <div class="feedback" id="feedback" aria-live="polite"></div>
         <div class="overlay menu-overlay" id="menu-overlay">
           <div class="main-menu screen" id="main-menu">
-            <section class="menu-brand-panel" aria-label="GG2">
+            <section class="menu-brand-panel" aria-label="GG2Hero">
               <img class="menu-poster" src="assets/metalocalypse-logo.png" alt="Artwork from the game disc">
               <p class="menu-kicker">TURN IT UP</p>
-              <div class="menu-logo" aria-label="GG2"><span>GG</span><strong>2</strong></div>
-              <p class="menu-tagline">FIND YOUR RIFF.</p>
+              <div class="menu-logo" aria-label="GG2Hero"><span>GG2</span><strong>Hero</strong></div>
+              <p class="menu-tagline">BY CHIN CHIN</p>
               <div class="menu-disc-art" aria-label="Artwork from the game disc">
                 <img src="assets/song-poster.png" alt="Disc song poster">
                 <img src="assets/skin-poster.png" alt="Disc guitar poster">
@@ -56,20 +56,22 @@
               <p class="eyebrow">MAIN STAGE</p>
               <h2>Choose your next move</h2>
               <div class="menu-options" id="menu-options">
-                <button class="menu-option selected" data-action="career" type="button"><span>01</span>Career<span class="option-arrow">›</span></button>
-                <button class="menu-option" data-action="quickplay" type="button"><span>02</span>Quick Play<span class="option-arrow">›</span></button>
-                <button class="menu-option" data-action="multiplayer" type="button"><span>03</span>Local Multiplayer<span class="option-arrow">›</span></button>
-                <button class="menu-option" data-action="training" type="button"><span>04</span>Training<span class="option-arrow">›</span></button>
-                <button class="menu-option" data-action="options" type="button"><span>05</span>Options<span class="option-arrow">›</span></button>
+                <button class="menu-option selected" data-action="quickplay" type="button"><span>01</span>Quick Play<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="multiplayer" type="button"><span>02</span>Local Multiplayer<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="training" type="button"><span>03</span>Training<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="options" type="button"><span>04</span>Options<span class="option-arrow">›</span></button>
               </div>
               <p class="menu-hint"><kbd>↑</kbd><kbd>↓</kbd> SELECT <kbd>ENTER</kbd> CONFIRM</p>
             </section>
           </div>
 
           <section class="subscreen screen" id="setup-screen" hidden>
-            <p class="eyebrow">GG2 · SETUP</p>
+            <p class="eyebrow">GG2Hero · SETUP</p>
             <h2 id="setup-title">Quick Play</h2>
             <p id="setup-description">Pick a difficulty and jump straight into the practice riff.</p>
+            <div class="song-search">
+              <input type="text" id="song-search" placeholder="Search songs by title or artist...">
+            </div>
             <label class="song-choice">
               <span>Setlist title</span>
               <select id="song-select">
@@ -94,6 +96,17 @@
                 <option value="easy">Easy</option>
                 <option value="medium" selected>Medium</option>
                 <option value="hard">Hard</option>
+                <option value="expert">Expert</option>
+              </select>
+            </label>
+            <label class="difficulty" id="speed-control">
+              <span>Hyperspeed</span>
+              <select id="speed">
+                <option value="1">Normal</option>
+                <option value="1.25">Fast</option>
+                <option value="1.5">Faster</option>
+                <option value="1.75">Even Faster</option>
+                <option value="2">Hyperspeed</option>
               </select>
             </label>
             <p class="setup-note" id="setup-note" role="status" aria-live="polite" hidden></p>
@@ -104,13 +117,23 @@
           </section>
 
           <section class="subscreen screen options-screen" id="options-screen" hidden>
-            <p class="eyebrow">GG2 · OPTIONS</p>
+            <p class="eyebrow">GG2Hero · OPTIONS</p>
             <h2>Make it yours</h2>
             <label class="option-setting"><span>Default difficulty</span>
               <select id="default-difficulty">
                 <option value="easy">Easy</option>
                 <option value="medium" selected>Medium</option>
                 <option value="hard">Hard</option>
+                <option value="expert">Expert</option>
+              </select>
+            </label>
+            <label class="option-setting"><span>Default hyperspeed</span>
+              <select id="default-speed">
+                <option value="1">Normal</option>
+                <option value="1.25">Fast</option>
+                <option value="1.5">Faster</option>
+                <option value="1.75">Even Faster</option>
+                <option value="2">Hyperspeed</option>
               </select>
             </label>
             <label class="option-setting"><span>Backing sound</span>
@@ -128,7 +151,7 @@
 
         <div class="overlay results-overlay" id="results-overlay" hidden>
           <div class="results-card">
-            <p class="eyebrow" id="results-kicker">GG2 · SET RESULTS</p>
+            <p class="eyebrow" id="results-kicker">GG2Hero · SET RESULTS</p>
             <h2 id="message-title">Set complete!</h2>
             <p id="message"></p>
             <button class="primary-button" id="result-action" type="button">Continue</button>
@@ -156,7 +179,7 @@
 
       <footer class="help">
         <p>Tap the matching <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>J</kbd><kbd>K</kbd> key or mapped controller button as each note reaches the line. Chords are pressed together.</p>
-        <p class="notice">GG2 uses original practice audio, local song files, or the selected official YouTube embed. Serve the game from http://localhost or HTTPS to load local songs.</p>
+        <p class="notice">GG2Hero uses original practice audio, local song files, or the selected official YouTube embed. Serve the game from http://localhost or HTTPS to load local songs.</p>
       </footer>
     </main>
     <script src="game.js"></script>

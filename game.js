@@ -18,12 +18,15 @@
   const difficultyControl = document.querySelector("#difficulty-control");
   const difficultySelect = document.querySelector("#difficulty");
   const songSelect = document.querySelector("#song-select");
+  const songSearchInput = document.querySelector("#song-search");
   const setupSongTitle = document.querySelector("#setup-song-title");
   const setupAlbumArt = document.querySelector("#setup-album-art");
   const currentSongLabel = document.querySelector("#current-song");
   const youtubeBackground = document.querySelector("#youtube-background");
   const songLibraryStatus = setupNote;
   const defaultDifficulty = document.querySelector("#default-difficulty");
+  const speedSelect = document.querySelector("#speed");
+  const defaultSpeed = document.querySelector("#default-speed");
   const soundSetting = document.querySelector("#sound-setting");
   const startButton = document.querySelector("#start");
   const saveOptionsButton = document.querySelector("#save-options");
@@ -46,19 +49,25 @@
   const laneColors = ["#63ed54", "#f34d59", "#f5dc45", "#47bcf3", "#f59a38"];
   const laneFrequencies = [196, 220, 261.63, 293.66, 329.63];
   const beatMs = 500;
-  const approachMs = 1900;
-  const approachSeconds = approachMs / 1000;
+  const baseApproachMs = 1900;
+  let approachMs = baseApproachMs;
+  let approachSeconds = approachMs / 1000;
   const highwayHorizonY = 2;
   const hitLineY = 445;
   const highwayTopHalfWidth = 137;
   const highwayBottomHalfWidth = 266;
   const noteLengthMs = 90;
+  const sustainReleaseGraceMs = 120;
+  const sustainMinBeats = 0.4;
+  const sustainPointsPerMs = 0.1;
   const beatSeconds = beatMs / 1000;
   const settings = {
     easy: { hitWindow: 220, density: 0.68 },
     medium: { hitWindow: 170, density: 0.84 },
     hard: { hitWindow: 130, density: 1 },
+    expert: { hitWindow: 110, density: 1 },
   };
+  const difficultyFallback = ["expert", "hard", "medium", "easy"];
   const beatPattern = [
     [0], [1], [2], [3], [4], [2, 4], [1, 3], [0],
     [4], [3], [2], [1], [0], [1, 4], [0, 3], [2],
@@ -75,6 +84,8 @@
   );
 
   let chart = [];
+  let chartWindowStart = 0;
+  let lastChartEndMs = 0;
   let songLibrary = [];
   let currentTrack;
   let youtubePlayer;
@@ -91,6 +102,23 @@
   let localAudioReady = false;
   let localAudioPreRoll = false;
   let localAudioPreRollTimer;
+  let localStems = [];
+  let stemSyncTimer;
+
+  function allLocalAudio() {
+    return localAudio ? [localAudio, ...localStems] : [];
+  }
+
+  function releaseLocalAudio() {
+    clearInterval(stemSyncTimer);
+    for (const element of allLocalAudio()) {
+      element.pause();
+      element.removeAttribute("src");
+      element.load();
+    }
+    localAudio = undefined;
+    localStems = [];
+  }
   let score = 0;
   let combo = 0;
   let bestCombo = 0;
@@ -109,7 +137,6 @@
   let currentMode = "quickplay";
   let currentPlayer = 1;
   let multiplayerScores = [];
-  let careerStage = 1;
   let selectedDifficulty = "medium";
 
   function songTimeMs() {
@@ -136,14 +163,33 @@
 
   function getTrackChart(track, difficulty = difficultySelect.value) {
     if (track?.type === "practice") return makeChart(difficulty);
-    const notes = track?.charts?.[difficulty];
+    const available = difficultyFallback.slice(difficultyFallback.indexOf(difficulty))
+      .find((level) => track?.charts?.[level]?.length > 0);
+    const notes = track?.charts?.[available];
     if (!Array.isArray(notes) || notes.length === 0) return null;
-    return notes.map((note) => ({
-      time: note.timeMs,
-      lanes: note.lanes,
+    return notes.map((note) => toChartNote(note.timeMs, note.lanes, note.lengthsMs));
+  }
+
+  function toChartNote(time, lanes, lengthsMs) {
+    return {
+      time,
+      lanes,
       hit: false,
       missed: false,
-    }));
+      tailsDead: false,
+      tails: lanes
+        .map((lane, index) => ({ lane, length: lengthsMs?.[index] ?? 0 }))
+        .filter((tail) => tail.length > 0)
+        .map((tail) => ({ ...tail, end: time + tail.length, broken: false, done: false, releasedAt: 0 })),
+      pendingPoints: 0,
+      endTime: Math.max(time, ...lanes.map((_, index) => time + (lengthsMs?.[index] ?? 0))),
+    };
+  }
+
+  function applySpeed(value) {
+    const multiplier = Number(value) || 1;
+    approachMs = baseApproachMs / multiplier;
+    approachSeconds = approachMs / 1000;
   }
 
   function setPointerFret(lane, held) {
@@ -206,6 +252,11 @@
       ids.add(item.id);
       if (item.type === "practice") return { ...item, youtubeVideoId: "" };
       for (const mediaField of ["audioUrl", "midiUrl", "chartUrl", "albumArtUrl"]) {
+        if (item.stemUrls !== undefined
+          && (!Array.isArray(item.stemUrls)
+            || item.stemUrls.some((url) => typeof url !== "string" || !url.trim()))) {
+          throw new Error(`${item.title}: stemUrls must be an array of non-empty URLs.`);
+        }
         if (item[mediaField] !== undefined
           && (typeof item[mediaField] !== "string" || !item[mediaField].trim())) {
           throw new Error(`${item.title}: ${mediaField} must be a non-empty URL or path.`);
@@ -239,12 +290,7 @@
       youtubePlayer.destroy();
       youtubePlayer = undefined;
     }
-    if (localAudio) {
-      localAudio.pause();
-      localAudio.removeAttribute("src");
-      localAudio.load();
-      localAudio = undefined;
-    }
+    releaseLocalAudio();
     localAudioReady = false;
     updateSongLabel();
     const playerHost = document.createElement("div");
@@ -259,15 +305,24 @@
         if (running && currentTrack?.id === selectedTrackId) finishGame(true);
       });
       try {
-        const audioReady = new Promise((resolve, reject) => {
-          localAudio.addEventListener("canplay", resolve, { once: true });
-          localAudio.addEventListener("error", () => {
-            reject(new Error(`Could not load local audio: ${track.audioUrl}`));
+        const loadAudio = (element, url) => new Promise((resolve, reject) => {
+          element.addEventListener("canplay", resolve, { once: true });
+          element.addEventListener("error", () => {
+            reject(new Error(`Could not load local audio: ${url}`));
           }, { once: true });
-          localAudio.src = track.audioUrl;
-          localAudio.load();
-          if (localAudio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) resolve();
+          element.src = url;
+          element.load();
+          if (element.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) resolve();
         });
+        localStems = (track.stemUrls ?? []).map(() => {
+          const stem = new Audio();
+          stem.preload = "auto";
+          return stem;
+        });
+        const audioReady = Promise.all([
+          loadAudio(localAudio, track.audioUrl),
+          ...localStems.map((stem, index) => loadAudio(stem, track.stemUrls[index])),
+        ]);
         const chartReady = track.midiUrl
           ? fetch(track.midiUrl).then(async (response) => {
             if (!response.ok) throw new Error(`Could not fetch MIDI chart (${response.status}): ${track.midiUrl}`);
@@ -334,7 +389,7 @@
             youtubePlayerReady = false;
             let message;
             if (event.data === 153 && window.location.protocol === "file:") {
-              message = "YouTube error 153: open GG2 from http://localhost, not as a file, so the player receives a referrer.";
+              message = "YouTube error 153: open GG2Hero from http://localhost, not as a file, so the player receives a referrer.";
             } else if (event.data === 101 || event.data === 150) {
               message = "This video cannot be embedded. Choose a YouTube video that allows embedding.";
             } else {
@@ -374,6 +429,15 @@
     songLibraryStatus.hidden = true;
     updateSongLabel();
     void prepareYouTubeTrack(currentTrack);
+  }
+
+  function buildChartNotes(notesByTime) {
+    return [...notesByTime.entries()]
+      .sort(([left], [right]) => left - right)
+      .map(([timeMs, laneLengths]) => {
+        const lanes = [...laneLengths.keys()].sort((a, b) => a - b);
+        return { timeMs, lanes, lengthsMs: lanes.map((lane) => laneLengths.get(lane)) };
+      });
   }
 
   function parseCloneHeroChart(text) {
@@ -420,7 +484,8 @@
     const chartSections = {
       easy: ["easysingle"],
       medium: ["mediumsingle"],
-      hard: ["expertsingle", "hardsingle"],
+      hard: ["hardsingle"],
+      expert: ["expertsingle"],
     };
     const charts = {};
     for (const [difficulty, trackNames] of Object.entries(chartSections)) {
@@ -437,12 +502,14 @@
         if (lane < 0 || lane >= laneCount) continue;
         const timeMs = tickToMs(tick);
         if (timeMs < 0) continue;
-        if (!notesByTime.has(timeMs)) notesByTime.set(timeMs, new Set());
-        notesByTime.get(timeMs).add(lane);
+        const lengthTicks = Number(match[3]);
+        const lengthMs = lengthTicks >= resolution * sustainMinBeats
+          ? tickToMs(tick + lengthTicks) - timeMs
+          : 0;
+        if (!notesByTime.has(timeMs)) notesByTime.set(timeMs, new Map());
+        notesByTime.get(timeMs).set(lane, lengthMs);
       }
-      charts[difficulty] = [...notesByTime.entries()]
-        .sort(([left], [right]) => left - right)
-        .map(([timeMs, lanes]) => ({ timeMs, lanes: [...lanes].sort((a, b) => a - b) }));
+      charts[difficulty] = buildChartNotes(notesByTime);
     }
     if (!Object.values(charts).some((notes) => notes.length > 0)) {
       throw new Error("No five-fret EasySingle, MediumSingle, HardSingle, or ExpertSingle notes found.");
@@ -492,6 +559,7 @@
       let runningStatus = 0;
       let name = "";
       const notes = [];
+      const openNotes = new Map();
       while (state.position < state.end) {
         tick += readVariableLength(state);
         let status = data.getUint8(state.position++);
@@ -540,7 +608,15 @@
           ? 0
           : data.getUint8(state.position++);
         if (command === 0x90 && second > 0) {
-          notes.push({ tick, pitch: first });
+          const note = { tick, pitch: first, endTick: tick };
+          notes.push(note);
+          openNotes.set(first, note);
+        } else if (command === 0x80 || command === 0x90) {
+          const open = openNotes.get(first);
+          if (open) {
+            open.endTick = tick;
+            openNotes.delete(first);
+          }
         }
       }
       tracks.push({ name, notes });
@@ -567,7 +643,7 @@
       }
       return Math.round(elapsed + ((targetTick - previousTick) / resolution) * tempo / 1000);
     };
-    const pitchGroups = { easy: 0, medium: 1, hard: 2 };
+    const pitchGroups = { easy: 0, medium: 1, hard: 2, expert: 3 };
     const charts = Object.fromEntries(Object.keys(settings).map((difficulty) => [difficulty, []]));
     for (const [difficulty, group] of Object.entries(pitchGroups)) {
       const notesByTime = new Map();
@@ -575,22 +651,23 @@
         const lane = note.pitch - 60 - group * 12;
         if (lane < 0 || lane >= laneCount) continue;
         const timeMs = tickToMs(note.tick);
-        if (!notesByTime.has(timeMs)) notesByTime.set(timeMs, new Set());
-        notesByTime.get(timeMs).add(lane);
+        const lengthMs = note.endTick - note.tick >= resolution * sustainMinBeats
+          ? tickToMs(note.endTick) - timeMs
+          : 0;
+        if (!notesByTime.has(timeMs)) notesByTime.set(timeMs, new Map());
+        notesByTime.get(timeMs).set(lane, lengthMs);
       }
-      charts[difficulty] = [...notesByTime.entries()]
-        .sort(([left], [right]) => left - right)
-        .map(([timeMs, lanes]) => ({ timeMs, lanes: [...lanes].sort((a, b) => a - b) }));
+      charts[difficulty] = buildChartNotes(notesByTime);
     }
     if (!Object.values(charts).some((notes) => notes.length > 0)) {
-      throw new Error("No five-lane Easy, Medium, or Hard notes found in PART GUITAR.");
+      throw new Error("No five-lane Easy, Medium, Hard, or Expert notes found in PART GUITAR.");
     }
     return charts;
   }
 
   function loadSongLibraryFromServer() {
     if (window.location.protocol === "file:") return;
-    fetch("songs.json").then((response) => {
+    fetch("songs.json", { cache: "no-store" }).then((response) => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.text();
     }).then((text) => {
@@ -606,22 +683,18 @@
     const notes = [];
     for (let beat = 0; beat < 64; beat += 1) {
       if (beat % 4 !== 0 && ((beat * 7) % 10) / 10 > density) continue;
-      notes.push({
-        time: beat * beatMs,
-        lanes: beatPattern[beat % beatPattern.length],
-        hit: false,
-        missed: false,
-      });
-      if (difficulty === "hard" && beat % 4 === 2) {
-        notes.push({
-          time: beat * beatMs + beatMs / 2,
-          lanes: [beat % laneCount],
-          hit: false,
-          missed: false,
-        });
+      const sustained = beat % 16 === 4 ? [beatMs * 1.5] : undefined;
+      notes.push(toChartNote(beat * beatMs, beatPattern[beat % beatPattern.length], sustained
+        ? beatPattern[beat % beatPattern.length].map(() => sustained[0])
+        : undefined));
+      if ((difficulty === "hard" || difficulty === "expert") && beat % 4 === 2) {
+        notes.push(toChartNote(beat * beatMs + beatMs / 2, [beat % laneCount]));
+      }
+      if (difficulty === "expert" && beat % 4 !== 2) {
+        notes.push(toChartNote(beat * beatMs + beatMs / 2, [(beat * 3 + 1) % laneCount]));
       }
     }
-    return notes;
+    return notes.sort((left, right) => left.time - right.time);
   }
 
   function showFeedback(text, missed = false) {
@@ -770,38 +843,142 @@
       const held = activeLanes.has(lane);
       const hitFlash = Math.max(0, laneHitUntil[lane] - performance.now());
       const hitScale = hitFlash > 0 ? 1 + (hitFlash / 170) * 0.24 : 1;
-      context.fillStyle = "#17141a";
-      context.beginPath();
-      context.arc(x, hitY + 4, laneWidth * 0.3 * hitScale, 0, Math.PI * 2);
-      context.fill();
+      const radiusX = laneWidth * 0.42 * hitScale;
+      const radiusY = radiusX * 0.42;
+      const centerY = hitY + 4;
+      const ellipse = (rx, ry) => {
+        context.beginPath();
+        context.ellipse(x, centerY, rx, ry, 0, 0, Math.PI * 2);
+      };
       context.shadowColor = laneColors[lane];
-      context.shadowBlur = held || hitFlash > 0 ? 30 : 9;
+      context.shadowBlur = held || hitFlash > 0 ? 30 : 6;
       context.fillStyle = held ? "#fff3d4" : laneColors[lane];
-      context.beginPath();
-      context.arc(x, hitY + 4, laneWidth * (held ? 0.2 : 0.17) * hitScale, 0, Math.PI * 2);
+      ellipse(radiusX, radiusY);
       context.fill();
       context.shadowBlur = 0;
-      context.strokeStyle = laneColors[lane];
-      context.lineWidth = 4;
-      context.beginPath();
-      context.arc(x, hitY + 4, laneWidth * 0.23, 0, Math.PI * 2);
-      context.stroke();
+      context.fillStyle = "#e8e8ea";
+      ellipse(radiusX * 0.86, radiusY * 0.82);
+      context.fill();
+      context.fillStyle = "#1a191d";
+      ellipse(radiusX * 0.7, radiusY * 0.62);
+      context.fill();
+      context.fillStyle = held ? "#fff3d4" : "#3a393e";
+      ellipse(radiusX * 0.34, radiusY * 0.3);
+      context.fill();
     }
   }
 
+  function drawTail(tail, note, elapsed) {
+    const headDepth = (elapsed - note.time + approachMs) / approachMs;
+    const endDepth = (elapsed - tail.end + approachMs) / approachMs;
+    if (endDepth > 1 || headDepth < 0) return;
+    const nearDepth = Math.min(headDepth, 1);
+    const farDepth = Math.max(endDepth, 0);
+    if (farDepth >= nearDepth) return;
+    const near = laneGeometry(tail.lane, nearDepth);
+    const far = laneGeometry(tail.lane, farDepth);
+    const nearY = projectDepth(nearDepth);
+    const farY = projectDepth(farDepth);
+    const color = tail.broken ? "#6b6b72" : laneColors[tail.lane];
+    const holding = note.hit && !tail.broken && !tail.done;
+    const halfNear = near.laneWidth * 0.11;
+    const halfFar = far.laneWidth * 0.11;
+    context.save();
+    context.globalAlpha = tail.broken ? 0.55 : 1;
+    context.shadowColor = color;
+    context.shadowBlur = holding ? 18 : 0;
+    context.fillStyle = color;
+    context.beginPath();
+    context.moveTo(near.x - halfNear, nearY);
+    context.lineTo(near.x + halfNear, nearY);
+    context.lineTo(far.x + halfFar, farY);
+    context.lineTo(far.x - halfFar, farY);
+    context.closePath();
+    context.fill();
+    context.shadowBlur = 0;
+    context.fillStyle = holding ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 0.4)";
+    context.beginPath();
+    context.moveTo(near.x - halfNear * 0.3, nearY);
+    context.lineTo(near.x + halfNear * 0.3, nearY);
+    context.lineTo(far.x + halfFar * 0.3, farY);
+    context.lineTo(far.x - halfFar * 0.3, farY);
+    context.closePath();
+    context.fill();
+    context.restore();
+  }
+
   function drawNote(note, elapsed) {
-    if (note.hit || note.missed) return;
+    if (note.missed) return;
     const depth = (elapsed - note.time + approachMs) / approachMs;
     const halfNoteDepth = noteLengthMs / (2 * approachMs);
     const backDepth = Math.max(0, depth - halfNoteDepth);
     const frontDepth = Math.min(1.08, depth + halfNoteDepth);
-    if (frontDepth <= 0 || backDepth > 1) return;
-    const topY = projectDepth(backDepth);
-    const bottomY = projectDepth(frontDepth);
-    const noteHeight = Math.max(8, bottomY - topY);
     const middleDepth = Math.max(0, Math.min(1, depth));
     const centerY = projectDepth(middleDepth);
 
+    if (!note.tailsDead) {
+      for (const tail of note.tails) drawTail(tail, note, elapsed);
+    }
+    if (note.hit || frontDepth <= 0 || backDepth > 1) return;
+
+    for (const lane of note.lanes) {
+      const { x, laneWidth: currentLaneWidth } = laneGeometry(lane, middleDepth);
+      const radiusX = currentLaneWidth * 0.42;
+      const radiusY = radiusX * 0.42;
+      const color = laneColors[lane];
+      const ellipse = (cx, cy, rx, ry) => {
+        context.beginPath();
+        context.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      };
+
+      const skirt = context.createLinearGradient(0, centerY, 0, centerY + radiusY * 1.4);
+      skirt.addColorStop(0, "#f4f4f4");
+      skirt.addColorStop(1, "#6d6d72");
+      context.fillStyle = skirt;
+      ellipse(x, centerY + radiusY * 0.28, radiusX, radiusY);
+      context.fill();
+
+      const body = context.createLinearGradient(0, centerY - radiusY, 0, centerY + radiusY);
+      body.addColorStop(0, color);
+      body.addColorStop(1, "rgba(0, 0, 0, 0.55)");
+      context.fillStyle = color;
+      ellipse(x, centerY - radiusY * 0.05, radiusX * 0.94, radiusY * 0.9);
+      context.fill();
+      context.fillStyle = body;
+      context.fill();
+
+      context.fillStyle = "#0b0a0d";
+      ellipse(x, centerY - radiusY * 0.3, radiusX * 0.6, radiusY * 0.56);
+      context.fill();
+
+      const dome = context.createLinearGradient(0, centerY - radiusY, 0, centerY);
+      dome.addColorStop(0, "rgba(255, 255, 255, 0.85)");
+      dome.addColorStop(0.35, color);
+      dome.addColorStop(1, color);
+      context.fillStyle = dome;
+      ellipse(x, centerY - radiusY * 0.42, radiusX * 0.52, radiusY * 0.46);
+      context.fill();
+
+      context.fillStyle = "#f2f2f2";
+      ellipse(x, centerY - radiusY * 0.62, radiusX * 0.24, radiusY * 0.2);
+      context.fill();
+    }
+  }
+
+  function advanceChartWindow(elapsed) {
+    while (chartWindowStart < chart.length
+      && chart[chartWindowStart].endTime < elapsed - 300) {
+      chartWindowStart += 1;
+    }
+  }
+
+  function draw(elapsed, now) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (!currentTrack?.youtubeVideoId) drawBackground(now);
+    drawHighway();
+    advanceChartWindow(elapsed);
+    let windowEnd = chartWindowStart;
+    while (windowEnd < chart.length && chart[windowEnd].time <= elapsed + approachMs) windowEnd += 1;
     context.save();
     context.beginPath();
     context.moveTo(canvas.width / 2 - highwayTopHalfWidth, highwayHorizonY);
@@ -810,71 +987,8 @@
     context.lineTo(canvas.width / 2 - highwayBottomHalfWidth, hitLineY + 34);
     context.closePath();
     context.clip();
-
-    for (const lane of note.lanes) {
-      const { x, laneWidth: currentLaneWidth } = laneGeometry(lane, middleDepth);
-      const noteWidth = currentLaneWidth * 0.78;
-      const cornerRadius = Math.min(noteHeight * 0.34, noteWidth * 0.2);
-      const noteTop = centerY - noteHeight / 2;
-      const gradient = context.createLinearGradient(0, noteTop, 0, noteTop + noteHeight);
-      gradient.addColorStop(0, "rgba(255, 255, 255, 0.96)");
-      gradient.addColorStop(0.22, laneColors[lane]);
-      gradient.addColorStop(0.78, laneColors[lane]);
-      gradient.addColorStop(1, "rgba(12, 10, 14, 0.82)");
-
-      context.shadowColor = laneColors[lane];
-      context.shadowBlur = 5 + middleDepth * 9;
-      context.fillStyle = "#100e13";
-      context.beginPath();
-      context.roundRect(
-        x - noteWidth / 2,
-        noteTop,
-        noteWidth,
-        noteHeight,
-        cornerRadius,
-      );
-      context.fill();
-      context.shadowBlur = 0;
-      context.fillStyle = gradient;
-      context.beginPath();
-      context.roundRect(
-        x - noteWidth / 2 + 2,
-        noteTop + 2,
-        noteWidth - 4,
-        Math.max(4, noteHeight - 4),
-        Math.max(2, cornerRadius - 2),
-      );
-      context.fill();
-      context.strokeStyle = "rgba(255, 249, 232, 0.9)";
-      context.lineWidth = 1.5;
-      context.beginPath();
-      context.roundRect(
-        x - noteWidth / 2,
-        noteTop,
-        noteWidth,
-        noteHeight,
-        cornerRadius,
-      );
-      context.stroke();
-      context.fillStyle = "rgba(255, 255, 255, 0.48)";
-      context.beginPath();
-      context.roundRect(
-        x - noteWidth * 0.2,
-        noteTop + noteHeight * 0.25,
-        noteWidth * 0.4,
-        Math.max(2, noteHeight * 0.12),
-        3,
-      );
-      context.fill();
-    }
+    for (let index = windowEnd - 1; index >= chartWindowStart; index -= 1) drawNote(chart[index], elapsed);
     context.restore();
-  }
-
-  function draw(elapsed, now) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    if (!currentTrack?.youtubeVideoId) drawBackground(now);
-    drawHighway();
-    for (const note of chart) drawNote(note, elapsed);
   }
 
   function getNoiseBuffer() {
@@ -1044,7 +1158,8 @@
     youtubePreRoll = false;
     localAudioPreRoll = false;
     if (youtubePlayerReady && youtubePlayer) youtubePlayer.pauseVideo();
-    if (localAudio) localAudio.pause();
+    clearInterval(stemSyncTimer);
+    for (const element of allLocalAudio()) element.pause();
     if (!audioContext) return;
     audioContext.close();
     audioContext = undefined;
@@ -1057,6 +1172,14 @@
     optionsScreen.hidden = screen !== "options";
     menuOverlay.hidden = false;
     resultsOverlay.hidden = true;
+    
+    // Clear song search when showing setup screen
+    if (screen === "setup") {
+      songSearchInput.value = "";
+      for (const option of songSelect.options) {
+        option.hidden = false;
+      }
+    }
   }
 
   function openSetup(mode) {
@@ -1064,13 +1187,7 @@
     showScreen("setup");
     difficultyControl.hidden = mode === "training";
 
-    if (mode === "career") {
-      setupTitle.textContent = "Career";
-      setupDescription.textContent = "Start your run from the local stage and work your way up.";
-      setupNote.textContent = `Gig ${careerStage} of 3 · Clear a set to unlock the next stage.`;
-      startButton.textContent = `Start gig ${careerStage}`;
-      difficultySelect.value = ["easy", "medium", "hard"][careerStage - 1];
-    } else if (mode === "multiplayer") {
+    if (mode === "multiplayer") {
       setupTitle.textContent = "Local Multiplayer";
       setupDescription.textContent = "Pass the keyboard between two players and compare your set scores.";
       setupNote.textContent = "Player 1 plays first. Player 2 gets the same chart and difficulty.";
@@ -1095,10 +1212,11 @@
   function activateMenuAction(action) {
     if (action === "options") {
       defaultDifficulty.value = selectedDifficulty;
+      defaultSpeed.value = speedSelect.value;
       showScreen("options");
     } else if (action === "back") {
       showScreen("menu");
-    } else if (["career", "quickplay", "multiplayer", "training"].includes(action)) {
+    } else if (["quickplay", "multiplayer", "training"].includes(action)) {
       openSetup(action);
     }
   }
@@ -1136,14 +1254,15 @@
       button.classList.remove("is-held");
       button.setAttribute("aria-pressed", "false");
     }
-    if (currentMode === "career") {
-      difficultySelect.value = ["easy", "medium", "hard"][careerStage - 1];
-    } else if (currentMode === "training") {
+    if (currentMode === "training") {
       difficultySelect.value = "easy";
     }
     selectedDifficulty = difficultySelect.value;
+    applySpeed(speedSelect.value);
     updateSongLabel();
     chart = getTrackChart(track, selectedDifficulty) ?? [];
+    chartWindowStart = 0;
+    lastChartEndMs = chart.reduce((latest, note) => Math.max(latest, note.endTime), 0);
     if (track.type !== "practice"
       && (chart.length === 0
         || (track.audioUrl ? !localAudioReady : !track.youtubeVideoId || !youtubePlayerReady))) {
@@ -1154,10 +1273,13 @@
     let localPlaying;
     if (track.audioUrl) {
       localAudioPreRoll = true;
-      localAudio.currentTime = 0;
-      localAudio.muted = true;
+      clearInterval(stemSyncTimer);
+      for (const element of allLocalAudio()) {
+        element.currentTime = 0;
+        element.muted = true;
+      }
       songStartPerformanceTime = performance.now() + approachMs;
-      localPlaying = localAudio.play();
+      localPlaying = Promise.all(allLocalAudio().map((element) => element.play()));
     }
     let youtubePlaying;
     if (track.youtubeVideoId) {
@@ -1213,8 +1335,18 @@
       songStartPerformanceTime = performance.now() + approachMs;
       localAudioPreRollTimer = setTimeout(() => {
         if (!running || currentTrack?.id !== track.id || !localAudio) return;
-        localAudio.currentTime = 0;
-        localAudio.muted = soundSetting.value === "off";
+        for (const element of allLocalAudio()) {
+          element.currentTime = 0;
+          element.muted = soundSetting.value === "off";
+        }
+        stemSyncTimer = setInterval(() => {
+          if (!localAudio) return;
+          for (const stem of localStems) {
+            if (Math.abs(stem.currentTime - localAudio.currentTime) > 0.04) {
+              stem.currentTime = localAudio.currentTime;
+            }
+          }
+        }, 500);
         localAudioPreRoll = false;
         clockStatus.textContent = "Local audio-clock synced";
       }, approachMs);
@@ -1270,7 +1402,7 @@
         "Pass the guitar",
         `Player 1 scored ${score.toLocaleString()}. Hand the controls to Player 2 for the same chart.`,
         "Start player 2",
-        "GG2 · LOCAL DUEL",
+        "GG2Hero · LOCAL DUEL",
       );
       return;
     }
@@ -1285,55 +1417,49 @@
         outcome,
         `Player 1: ${playerOne.toLocaleString()} · Player 2: ${playerTwo.toLocaleString()}`,
         "Play again",
-        "GG2 · DUEL RESULTS",
+        "GG2Hero · DUEL RESULTS",
       );
-      return;
-    }
-
-    if (currentMode === "career" && success && careerStage < 3) {
-      showResults(
-        `Gig ${careerStage} complete!`,
-        `You scored ${score.toLocaleString()}. One more stage is ready when you are.`,
-        "Next gig",
-        "GG2 · CAREER TOUR",
-      );
-      return;
-    }
-
-    if (currentMode === "career" && success) {
-      showResults(
-        "Tour complete!",
-        `You cleared all three gigs with a final score of ${score.toLocaleString()}.`,
-        "Play career again",
-        "GG2 · CAREER TOUR",
-      );
-      return;
-    }
-
-    if (currentMode === "career") {
-      showResults("Gig over", `Score ${score.toLocaleString()} · Best streak ${bestCombo}. Try the gig again.`, "Retry gig", "GG2 · CAREER TOUR");
       return;
     }
 
     const title = success ? "Set complete!" : "The crowd went quiet!";
     const message = `Score ${score.toLocaleString()} · Best streak ${bestCombo} · ${Math.round(rock)}% rock meter`;
     const action = currentMode === "training" ? "Train again" : "Play again";
-    showResults(title, message, action, currentMode === "training" ? "GG2 · PRACTICE" : "GG2 · SET RESULTS");
+    showResults(title, message, action, currentMode === "training" ? "GG2Hero · PRACTICE" : "GG2Hero · SET RESULTS");
   }
 
   function advanceResults() {
     resultsOverlay.hidden = true;
-    if (currentMode === "multiplayer" && currentPlayer === 1) {
-      currentPlayer = 2;
-      startGame();
-    } else if (currentMode === "career" && careerStage < 3) {
-      careerStage += 1;
-      startGame();
-    } else if (currentMode === "career") {
-      careerStage = 1;
-      openSetup("career");
-    } else {
-      startGame();
+    if (currentMode === "multiplayer" && currentPlayer === 1) currentPlayer = 2;
+    startGame();
+  }
+
+  function updateSustains(elapsed, now) {
+    const multiplier = Math.min(4, 1 + Math.floor(combo / 10));
+    for (let index = chartWindowStart; index < chart.length; index += 1) {
+      const note = chart[index];
+      if (note.time > elapsed + approachMs) break;
+      if (!note.hit || note.tailsDead || note.time > elapsed) continue;
+      for (const tail of note.tails) {
+        if (tail.broken || tail.done) continue;
+        const from = Math.max(tail.lastTick ?? note.time, note.time);
+        const to = Math.min(elapsed, tail.end);
+        if (activeLanes.has(tail.lane)) {
+          tail.releasedAt = 0;
+          note.pendingPoints += Math.max(0, to - from) * sustainPointsPerMs * multiplier;
+          laneHitUntil[tail.lane] = performance.now() + 170;
+        } else if (elapsed < tail.end - sustainReleaseGraceMs) {
+          tail.releasedAt ||= elapsed;
+          if (elapsed - tail.releasedAt > sustainReleaseGraceMs) tail.broken = true;
+        }
+        tail.lastTick = to;
+        if (elapsed >= tail.end) tail.done = true;
+      }
+      const whole = Math.floor(note.pendingPoints);
+      if (whole > 0) {
+        score += whole;
+        note.pendingPoints -= whole;
+      }
     }
   }
 
@@ -1341,17 +1467,23 @@
     if (!running) return;
     pollGamepads();
     const elapsed = songTimeMs();
-    for (const note of chart) {
+    advanceChartWindow(elapsed);
+    const hitWindowMs = settings[selectedDifficulty].hitWindow;
+    for (let index = chartWindowStart; index < chart.length; index += 1) {
+      const note = chart[index];
+      if (note.time > elapsed + hitWindowMs) break;
       const inputPendingForNote = pendingInputLanes.size > 0
         && Math.abs(note.time - pendingInputAt) <= settings[selectedDifficulty].hitWindow;
       if (!note.hit && !note.missed && !inputPendingForNote
         && elapsed > note.time + settings[selectedDifficulty].hitWindow) {
         note.missed = true;
+        note.tailsDead = true;
         combo = 0;
         if (currentMode !== "training") rock = Math.max(0, rock - 5);
           playMissScratch();
       }
     }
+    updateSustains(elapsed, now);
     updateHud();
     draw(elapsed, now);
 
@@ -1359,7 +1491,7 @@
       finishGame(false);
       return;
     }
-    if (!currentTrack?.audioUrl && elapsed > chart[chart.length - 1].time + 1800) {
+    if (!currentTrack?.audioUrl && elapsed > lastChartEndMs + 1800) {
       finishGame(true);
       return;
     }
@@ -1426,7 +1558,8 @@
     let target;
     let smallestDifference = Infinity;
 
-    for (const note of chart) {
+    for (let index = chartWindowStart; index < chart.length; index += 1) {
+      const note = chart[index];
       if (note.hit || note.missed) continue;
       const difference = Math.abs(note.time - pressedAt);
       if (difference < smallestDifference) {
@@ -1450,6 +1583,7 @@
     const matchingFrets = target.lanes.length === pressedLanes.size
       && target.lanes.every((lane) => pressedLanes.has(lane));
     if (!matchingFrets) {
+      target.tailsDead = true;
       combo = 0;
       if (currentMode !== "training") rock = Math.max(0, rock - 7);
       playMissScratch();
@@ -1492,17 +1626,47 @@
   songSelect.addEventListener("change", () => {
     void prepareYouTubeTrack(getTrack());
   });
+  
+  songSearchInput.addEventListener("input", (event) => {
+    const searchText = event.target.value.toLowerCase();
+    if (!searchText) {
+      // Show all songs
+      for (const option of songSelect.options) {
+        option.hidden = false;
+      }
+      return;
+    }
+    
+    // Filter songs by search text
+    for (const option of songSelect.options) {
+      const songText = option.textContent.toLowerCase();
+      option.hidden = !songText.includes(searchText);
+    }
+    
+    // If current selection is hidden, select first visible option
+    if (songSelect.options[songSelect.selectedIndex].hidden) {
+      for (const option of songSelect.options) {
+        if (!option.hidden) {
+          songSelect.value = option.value;
+          updateSongLabel();
+          void prepareYouTubeTrack(getTrack());
+          break;
+        }
+      }
+    }
+  });
+  
   difficultySelect.addEventListener("change", updateSongLabel);
 
   saveOptionsButton.addEventListener("click", () => {
     selectedDifficulty = defaultDifficulty.value;
     difficultySelect.value = selectedDifficulty;
+    speedSelect.value = defaultSpeed.value;
     showScreen("menu");
   });
 
   resultAction.addEventListener("click", advanceResults);
   resultMenu.addEventListener("click", () => {
-    careerStage = 1;
     currentPlayer = 1;
     showScreen("menu");
   });

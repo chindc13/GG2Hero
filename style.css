@@ -447,6 +447,34 @@ button {
   font-size: 0.75rem;
 }
 
+.song-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0 8px 0;
+}
+
+.song-search input {
+  flex: 1;
+  max-width: 270px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  background-color: #2a2622;
+  border: 1px solid #5a5047;
+  color: #d4c7bc;
+  border-radius: 3px;
+  transition: border-color 0.2s;
+}
+
+.song-search input:focus {
+  outline: none;
+  border-color: #d4c7bc;
+}
+
+.song-search input::placeholder {
+  color: #7a6f65;
+}
+
 .help {
   display: flex;
   flex-wrap: wrap;
@@ -654,7 +682,7 @@ h1 span {
   display: flex;
   align-items: center;
   color: #f8f0e2;
-  font-size: clamp(4.5rem, 11vw, 7.7rem);
+  font-size: clamp(2.6rem, 6.5vw, 4.6rem);
   font-weight: 1000;
   letter-spacing: -0.13em;
   line-height: 0.95;
@@ -1009,7 +1037,7 @@ h1 span {
   }
 
   .menu-logo {
-    font-size: 3.7rem;
+    font-size: 2.4rem;
   }
 
   .menu-tagline {

@@ -731,12 +731,25 @@
   }
   
   function updateMultiplayerHud() {
-    // Update player board stats
-    const boardContainers = document.querySelectorAll(".player-board");
+    // Find the active multiplayer board container
+    let boardContainers = null;
+    if (playerCount === 2) {
+      boardContainers = multiplayerBoards.querySelectorAll(".player-board");
+    } else if (playerCount === 3) {
+      boardContainers = multiplayerBoards3.querySelectorAll(".player-board");
+    } else if (playerCount === 4) {
+      boardContainers = multiplayerBoards4.querySelectorAll(".player-board");
+    }
+    
+    if (!boardContainers) return;
+    
     for (let i = 0; i < playerCount && i < boardContainers.length; i++) {
-      const stats = boardContainers[i].querySelectorAll(".player-score, .player-combo");
-      if (stats[0]) stats[0].textContent = playerStates[i].score.toLocaleString();
-      if (stats[1]) stats[1].textContent = String(playerStates[i].combo);
+      const boardContainer = boardContainers[i];
+      const scoreElement = boardContainer.querySelector(".player-score");
+      const comboElement = boardContainer.querySelector(".player-combo");
+      
+      if (scoreElement) scoreElement.textContent = playerStates[i].score.toLocaleString();
+      if (comboElement) comboElement.textContent = String(playerStates[i].combo);
     }
   }
 

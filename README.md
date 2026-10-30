@@ -141,6 +141,75 @@ browser-rhythm/
 └── README.md           # This file
 ```
 
+## 🎵 Current Song List
+
+The game includes a comprehensive library of **Guitar Hero 2** songs and custom practice charts:
+
+### Practice & Tutorial Songs
+- GG2 Original Practice Riff
+- Basic 2 Playing Notes
+- Basic 3 Different Notes
+- Basic 4 Durations
+- Basic 5 Chords
+- StarPower 2 Combos
+- StarPower 3 Whammy Bar
+- StarPower 4 Wail
+- StarPower 5 Hammer-Ons
+- StarPower 6 Pull-Offs
+
+### Guitar Hero 2 Setlist Songs (90+ tracks)
+**Iconic Hits:**
+- War Pigs (Black Sabbath)
+- Free Bird (Lynyrd Skynyrd)
+- Sweet Child O' Mine (Guns N' Roses)
+- You Really Got Me (Van Halen)
+- Carry On Wayward Son (Kansas)
+- YYZ (Rush)
+- Hangar 18 (Megadeth)
+
+**Rock Classics:**
+- Crazy on You (Heart)
+- Rock and Roll Hoochie Koo (T-Bone Walker)
+- Rock This Town (Stray Cats)
+- Hush (Krokus)
+- Shout At The Devil (Mötley Crüe)
+- The Trooper (Iron Maiden)
+- Message In A Bottle (The Police)
+- Surrender (Cheap Trick)
+
+**Alternative & Metal:**
+- Killing In The Name (Rage Against the Machine)
+- Monkey Wrench (Foo Fighters)
+- Institutionalized (Suicidal Tendencies)
+- Search and Destroy (The Stooges)
+- Heart-Shaped Box (Nirvana)
+- Mother (Danzig)
+- Possum Kingdom (Tonic)
+- Tattooed Love Boys (The Pretenders)
+
+**Modern & Hard Rock:**
+- Beast And the Harlot (Avenged Sevenfold)
+- Thunderhorse (Dethklok)
+- Dead! (My Chemical Romance)
+- Life Wasted (Pearl Jam)
+- Can't You Hear Me Knockin' (The Rolling Stones)
+- Jessica (The Allman Brothers Band)
+
+**Bonus & Hidden Tracks:**
+- Trogdor (Strong Bad)
+- Laugh Track
+- Psychobilly Freakout
+- And many more...
+
+**Co-op Versions:**
+Many songs include Co-op versions for multiplayer gameplay (marked with "(Co-op)")
+
+### Total Songs
+- **90+ Individual Tracks**
+- **50+ Co-op Variants**
+- **10 Practice Charts**
+- **165+ Total Playable Charts**
+
 ## 🎵 Adding New Songs
 
 1. Prepare your song in OGG format: `songs/your_song.ogg`
@@ -151,9 +220,10 @@ browser-rhythm/
      "id": "your_song",
      "title": "Your Song Title",
      "artist": "Artist Name",
-     "bpm": 120,
-     "audioFile": "songs/your_song.ogg",
-     "chartFile": "songs/your_song.chart"
+     "audioUrl": "songs/your_song.ogg",
+     "stemUrls": ["songs/your_song/guitar.ogg"],
+     "midiUrl": "songs/your_song/notes.mid",
+     "albumArtUrl": "songs/your_song/album.png"
    }
    ```
 4. Refresh the game to see your new song in the song list

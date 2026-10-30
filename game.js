@@ -150,7 +150,6 @@
   
   // Simultaneous multiplayer state
   let playerStates = []; // Array of { score, combo, bestCombo, rock, activeLanes, etc }
-  let playerContexts = []; // Canvas contexts for each player board
   let playerInputMaps = []; // Input routing for each player (gamepad index or "keyboard")
 
   function songTimeMs() {
@@ -1021,127 +1020,24 @@
   }
   
   function drawSimultaneousMultiplayer(elapsed, now) {
-    // Draw game board for each player in their section
-    const boardElements = document.querySelectorAll(".player-board");
-    
-    for (let playerIdx = 0; playerIdx < playerCount && playerIdx < boardElements.length; playerIdx++) {
-      const playerBoard = boardElements[playerIdx];
-      const ctx = playerContexts[playerIdx];
-      if (!ctx) continue;
-      
-      const playerState = playerStates[playerIdx];
-      const boardCanvas = playerBoard.querySelector(".board-canvas");
-      if (!boardCanvas) continue;
-      
-      const width = boardCanvas.width;
-      const height = boardCanvas.height;
-      
-      // Clear and draw background
-      ctx.clearRect(0, 0, width, height);
-      const sky = ctx.createLinearGradient(0, 0, 0, height);
-      sky.addColorStop(0, "#19151b");
-      sky.addColorStop(0.58, "#42262b");
-      sky.addColorStop(1, "#100e13");
-      ctx.fillStyle = sky;
-      ctx.fillRect(0, 0, width, height);
-      
-      // Draw scaled highway for this player
-      const scaleX = width / 960;
-      const scaleY = height / 540;
-      const scaledTopHalfWidth = highwayTopHalfWidth * scaleX;
-      const scaledBottomHalfWidth = highwayBottomHalfWidth * scaleX;
-      const scaledHorizonY = highwayHorizonY * scaleY;
-      const scaledHitLineY = hitLineY * scaleY;
-      
-      // Draw lane lines
-      ctx.strokeStyle = "#3a1d24";
-      ctx.lineWidth = 1;
-      for (let i = 1; i < laneCount; i++) {
-        const laneProgress = i / laneCount;
-        const topX = (width / 2) - scaledTopHalfWidth + (2 * scaledTopHalfWidth) * laneProgress;
-        const botX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
-        ctx.beginPath();
-        ctx.moveTo(botX, scaledHitLineY + 34);
-        ctx.lineTo(topX, scaledHorizonY);
-        ctx.stroke();
-      }
-      
-      // Draw highway edges
-      ctx.strokeStyle = "#6d5d60";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(width / 2 - scaledTopHalfWidth, scaledHorizonY);
-      ctx.lineTo(width / 2 + scaledTopHalfWidth, scaledHorizonY);
-      ctx.lineTo(width / 2 + scaledBottomHalfWidth, scaledHitLineY + 34);
-      ctx.lineTo(width / 2 - scaledBottomHalfWidth, scaledHitLineY + 34);
-      ctx.closePath();
-      ctx.stroke();
-      
-      // Draw hit line
-      ctx.strokeStyle = "#c4a59e";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(width / 2 - scaledBottomHalfWidth - 20, scaledHitLineY);
-      ctx.lineTo(width / 2 + scaledBottomHalfWidth + 20, scaledHitLineY);
-      ctx.stroke();
-      
-      // Draw fret targets
-      for (let lane = 0; lane < laneCount; lane++) {
-        const laneProgress = (lane + 0.5) / laneCount;
-        const laneX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
-        ctx.fillStyle = laneColors[lane];
-        ctx.beginPath();
-        ctx.ellipse(laneX, scaledHitLineY + 20, (scaledBottomHalfWidth / laneCount) * 0.35, 14 * scaleY, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = "rgba(0,0,0,0.4)";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-      
-      // Clip and draw notes for this player
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(width / 2 - scaledTopHalfWidth, scaledHorizonY);
-      ctx.lineTo(width / 2 + scaledTopHalfWidth, scaledHorizonY);
-      ctx.lineTo(width / 2 + scaledBottomHalfWidth, scaledHitLineY + 34);
-      ctx.lineTo(width / 2 - scaledBottomHalfWidth, scaledHitLineY + 34);
-      ctx.closePath();
-      ctx.clip();
-      
-      // Draw notes that haven't been processed
-      for (let idx = playerState.chartWindowStart; idx < chart.length; idx++) {
-        const note = chart[idx];
-        if (note.time > elapsed + approachMs) break;
-        if (note.time < elapsed - approachMs) continue;
-        
-        const noteProgress = (elapsed - note.time) / approachMs;
-        const noteY = scaledHorizonY + (scaledHitLineY - scaledHorizonY) * noteProgress;
-        
-        // Draw gems for each lane in this note
-        for (let lane of note.lanes) {
-          const laneProgress = (lane + 0.5) / laneCount;
-          const laneX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
-          
-          // Scale based on perspective
-          const scale = 0.4 + 0.6 * noteProgress;
-          const gemWidth = (scaledBottomHalfWidth / laneCount) * 0.5 * scale;
-          const gemHeight = 24 * scale * scaleY;
-          
-          // Draw gem
-          ctx.fillStyle = laneColors[lane];
-          ctx.beginPath();
-          ctx.ellipse(laneX, noteY, gemWidth * 0.6, gemHeight * 0.5, 0, 0, Math.PI * 2);
-          ctx.fill();
-          
-          // Draw ring
-          ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
-        }
-      }
-      
-      ctx.restore();
-    }
+    // Simply draw the regular game to the main canvas
+    // The CSS will handle splitting it across player boards
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (!currentTrack?.youtubeVideoId) drawBackground(now);
+    drawHighway();
+    advanceChartWindow(elapsed);
+    let windowEnd = chartWindowStart;
+    while (windowEnd < chart.length && chart[windowEnd].time <= elapsed + approachMs) windowEnd += 1;
+    context.save();
+    context.beginPath();
+    context.moveTo(canvas.width / 2 - highwayTopHalfWidth, highwayHorizonY);
+    context.lineTo(canvas.width / 2 + highwayTopHalfWidth, highwayHorizonY);
+    context.lineTo(canvas.width / 2 + highwayBottomHalfWidth, hitLineY + 34);
+    context.lineTo(canvas.width / 2 - highwayBottomHalfWidth, hitLineY + 34);
+    context.closePath();
+    context.clip();
+    for (let index = windowEnd - 1; index >= chartWindowStart; index -= 1) drawNote(chart[index], elapsed);
+    context.restore();
     
     // Update player HUD
     updateMultiplayerHud();
@@ -1540,24 +1436,12 @@
     if (currentMode === "multiplayer") {
       isSimultaneousMultiplayer = true;
       playerStates = [];
-      playerContexts = [];
       
       // Show appropriate multiplayer board layout
       multiplayerBoards.hidden = playerCount !== 2;
       multiplayerBoards3.hidden = playerCount !== 3;
       multiplayerBoards4.hidden = playerCount !== 4;
       canvas.hidden = false; // Keep main canvas visible for rendering
-      
-      if (playerCount === 2) {
-        const boards = multiplayerBoards.querySelectorAll(".board-canvas");
-        playerContexts = [...boards].map(c => c.getContext("2d"));
-      } else if (playerCount === 3) {
-        const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
-        playerContexts = [...boards].map(c => c.getContext("2d"));
-      } else if (playerCount === 4) {
-        const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
-        playerContexts = [...boards].map(c => c.getContext("2d"));
-      }
       
       // Initialize state for each player
       for (let i = 0; i < playerCount; i++) {

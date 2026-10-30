@@ -42,6 +42,9 @@
   const resultsMessage = document.querySelector("#message");
   const resultAction = document.querySelector("#result-action");
   const resultMenu = document.querySelector("#result-menu");
+  const pauseOverlay = document.querySelector("#pause-overlay");
+  const pauseResume = document.querySelector("#pause-resume");
+  const pauseQuit = document.querySelector("#pause-quit");
   const feedbackElement = document.querySelector("#feedback");
   const controllerStatus = document.querySelector("#controller-status");
   const clockStatus = document.querySelector("#clock-status");
@@ -132,6 +135,8 @@
   let songStartAudioTime = 0;
   let songStartPerformanceTime = 0;
   let running = false;
+  let paused = false;
+  let pausedAtPerformance = 0;
   let audioContext;
   let animationFrame;
   let feedbackTimeout;
@@ -1615,7 +1620,9 @@
     }
     menuOverlay.hidden = true;
     resultsOverlay.hidden = true;
-    
+    paused = false;
+    pauseOverlay.hidden = true;
+
     // Set up simultaneous multiplayer if enabled
     if (currentMode === "multiplayer") {
       isSimultaneousMultiplayer = true;
@@ -1913,7 +1920,52 @@
     updateActiveFrets();
   }
 
+  function pauseGame() {
+    // Ignore Esc during the count-in, where timers can't be frozen safely
+    if (!running || paused || localAudioPreRoll || youtubePreRoll) return;
+    paused = true;
+    pausedAtPerformance = performance.now();
+    cancelAnimationFrame(animationFrame);
+    clearTimeout(inputTimeout);
+    pendingInputLanes.clear();
+    keyboardLanes.clear();
+    gamepadLanes.clear();
+    pointerLanes.clear();
+    updateActiveFrets();
+    if (audioContext) audioContext.suspend();
+    for (const element of allLocalAudio()) element.pause();
+    if (youtubePlayerReady && youtubePlayer) youtubePlayer.pauseVideo();
+    pauseOverlay.hidden = false;
+    pauseResume.focus();
+  }
+
+  function resumeGame() {
+    if (!paused) return;
+    paused = false;
+    pauseOverlay.hidden = true;
+    songStartPerformanceTime += performance.now() - pausedAtPerformance;
+    if (audioContext) audioContext.resume();
+    for (const element of allLocalAudio()) void element.play();
+    if (currentTrack?.youtubeVideoId && youtubePlayerReady) youtubePlayer.playVideo();
+    animationFrame = requestAnimationFrame(isSimultaneousMultiplayer ? frameSimultaneousMultiplayer : frame);
+  }
+
+  function quitToMenu() {
+    paused = false;
+    running = false;
+    pauseOverlay.hidden = true;
+    cancelAnimationFrame(animationFrame);
+    clearTimeout(inputTimeout);
+    pendingInputLanes.clear();
+    stopAudio();
+    showFeedback("");
+    currentPlayer = 1;
+    multiplayerScores = [];
+    showScreen("menu");
+  }
+
   function queueFretInput(lane, pressedAt = songTimeMs()) {
+    if (paused) return;
     if (pendingInputLanes.size === 0) pendingInputAt = pressedAt;
     pendingInputLanes.add(lane);
     clearTimeout(inputTimeout);
@@ -2142,8 +2194,21 @@
     showScreen("menu");
   });
 
+  pauseResume.addEventListener("click", resumeGame);
+  pauseQuit.addEventListener("click", quitToMenu);
+
   window.addEventListener("keydown", (event) => {
     if (running) {
+      if (event.key === "Escape" && !event.repeat) {
+        event.preventDefault();
+        if (paused) resumeGame();
+        else pauseGame();
+        return;
+      }
+      if (paused) {
+        if (event.key === "q" || event.key === "Q") quitToMenu();
+        return;
+      }
       const lane = laneKeys.indexOf(event.key.toLowerCase());
       if (lane >= 0 && !event.repeat) {
         event.preventDefault();

@@ -135,7 +135,7 @@
               <h2>Choose your next move</h2>
               <div class="menu-options" id="menu-options">
                 <button class="menu-option selected" data-action="quickplay" type="button"><span>01</span>Quick Play<span class="option-arrow">›</span></button>
-                <button class="menu-option" data-action="multiplayer" type="button"><span>02</span>Local Multiplayer<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="multiplayer" type="button"><span>02</span>Local Multiplayer (In Development)<span class="option-arrow">›</span></button>
                 <button class="menu-option" data-action="training" type="button"><span>03</span>Training<span class="option-arrow">›</span></button>
                 <button class="menu-option" data-action="options" type="button"><span>04</span>Options<span class="option-arrow">›</span></button>
               </div>
@@ -250,6 +250,16 @@
             <p id="message"></p>
             <button class="primary-button" id="result-action" type="button">Continue</button>
             <button class="text-button" id="result-menu" type="button">Main menu</button>
+          </div>
+        </div>
+
+        <div class="overlay results-overlay" id="pause-overlay" hidden>
+          <div class="results-card">
+            <p class="eyebrow">GG2Hero · PAUSED</p>
+            <h2>Game paused</h2>
+            <p>Press Esc to resume, or Q to quit.</p>
+            <button class="primary-button" id="pause-resume" type="button">Resume</button>
+            <button class="text-button" id="pause-quit" type="button">Quit to main menu</button>
           </div>
         </div>
       </section>

@@ -190,6 +190,16 @@ h1 span {
   font-weight: 800;
 }
 
+.star-block {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 9px 14px !important;
+}
+
+.star-block .stat-label {
+  grid-column: 1 / -1;
+}
+
 .star-block.is-ready {
   background: linear-gradient(110deg, #1f3447, #1d1a20);
 }

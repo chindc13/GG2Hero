@@ -1560,6 +1560,44 @@
     audioContext = undefined;
   }
 
+  function scheduleLocalAudioPreRoll(track) {
+    clearTimeout(localAudioPreRollTimer);
+    const delay = Math.max(0, songStartPerformanceTime - performance.now());
+    localAudioPreRollTimer = setTimeout(() => {
+      if (!running || paused || currentTrack?.id !== track.id || !localAudio) return;
+      for (const element of allLocalAudio()) {
+        element.currentTime = 0;
+        element.muted = soundSetting.value === "off";
+      }
+      stemSyncTimer = setInterval(() => {
+        if (!localAudio) return;
+        for (const stem of localStems) {
+          if (Math.abs(stem.currentTime - localAudio.currentTime) > 0.04) {
+            stem.currentTime = localAudio.currentTime;
+          }
+        }
+      }, 500);
+      localAudioPreRoll = false;
+      clockStatus.textContent = "Local audio-clock synced";
+    }, delay);
+  }
+
+  function scheduleYouTubePreRoll(track) {
+    clearTimeout(youtubePreRollTimer);
+    const delay = Math.max(0, songStartPerformanceTime - performance.now());
+    youtubePreRollTimer = setTimeout(() => {
+      if (!running || paused || !youtubePlayerReady || currentTrack?.id !== track.id) return;
+      youtubePlayer.seekTo(0, true);
+      youtubeClockAnchorMs = 0;
+      youtubeClockAnchorPerformance = performance.now();
+      youtubeClockRunning = true;
+      if (soundSetting.value === "on") youtubePlayer.unMute();
+      youtubePlayer.playVideo();
+      youtubePreRoll = false;
+      clockStatus.textContent = "YouTube audio-clock synced";
+    }, delay);
+  }
+
   function showScreen(screen) {
     currentScreen = screen;
     mainMenu.hidden = screen !== "menu";
@@ -1833,23 +1871,7 @@
     }
     if (track.audioUrl) {
       songStartPerformanceTime = performance.now() + approachMs;
-      localAudioPreRollTimer = setTimeout(() => {
-        if (!running || currentTrack?.id !== track.id || !localAudio) return;
-        for (const element of allLocalAudio()) {
-          element.currentTime = 0;
-          element.muted = soundSetting.value === "off";
-        }
-        stemSyncTimer = setInterval(() => {
-          if (!localAudio) return;
-          for (const stem of localStems) {
-            if (Math.abs(stem.currentTime - localAudio.currentTime) > 0.04) {
-              stem.currentTime = localAudio.currentTime;
-            }
-          }
-        }, 500);
-        localAudioPreRoll = false;
-        clockStatus.textContent = "Local audio-clock synced";
-      }, approachMs);
+      scheduleLocalAudioPreRoll(track);
     } else if (track.youtubeVideoId) {
       try {
         await youtubePlaying;
@@ -1861,16 +1883,7 @@
         return;
       }
       songStartPerformanceTime = performance.now() + approachMs;
-      youtubePreRollTimer = setTimeout(() => {
-        if (!running || !youtubePlayerReady || currentTrack?.id !== track.id) return;
-        youtubePlayer.seekTo(0, true);
-        youtubeClockAnchorMs = 0;
-        youtubeClockAnchorPerformance = performance.now();
-        youtubeClockRunning = true;
-        if (soundSetting.value === "on") youtubePlayer.unMute();
-        youtubePreRoll = false;
-        clockStatus.textContent = "YouTube audio-clock synced";
-      }, approachMs);
+      scheduleYouTubePreRoll(track);
     } else {
       songStartPerformanceTime = performance.now() + approachMs;
       clockStatus.textContent = audioContext ? "Audio-clock synced" : "Browser-clock timing";
@@ -2180,8 +2193,7 @@
   }
 
   function pauseGame() {
-    // Ignore Esc during the count-in, where timers can't be frozen safely
-    if (!running || paused || localAudioPreRoll || youtubePreRoll) return;
+    if (!running || paused) return;
     paused = true;
     pausedAtPerformance = performance.now();
     cancelAnimationFrame(animationFrame);
@@ -2205,7 +2217,9 @@
     songStartPerformanceTime += performance.now() - pausedAtPerformance;
     if (audioContext) audioContext.resume();
     for (const element of allLocalAudio()) void element.play();
-    if (currentTrack?.youtubeVideoId && youtubePlayerReady) youtubePlayer.playVideo();
+    if (localAudioPreRoll) scheduleLocalAudioPreRoll(currentTrack);
+    if (youtubePreRoll) scheduleYouTubePreRoll(currentTrack);
+    else if (currentTrack?.youtubeVideoId && youtubePlayerReady) youtubePlayer.playVideo();
     animationFrame = requestAnimationFrame(isSimultaneousMultiplayer ? frameSimultaneousMultiplayer : frame);
   }
 
@@ -2472,7 +2486,10 @@
         return;
       }
       if (paused) {
-        if (event.key === "q" || event.key === "Q") quitToMenu();
+        if ((event.key === "q" || event.key === "Q") && !event.repeat) {
+          event.preventDefault();
+          quitToMenu();
+        }
         return;
       }
       if (event.key === " " && !event.repeat) {

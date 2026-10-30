@@ -1217,6 +1217,10 @@ h1 span {
   color: #fff;
 }
 
+.pause-overlay {
+  z-index: 5;
+}
+
 .pause-card {
   text-align: center;
 }

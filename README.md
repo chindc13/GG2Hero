@@ -29,6 +29,7 @@ GG2Hero is a rhythm game where players hit notes in sync with music by pressing 
 
 ### Controls
 - **Keyboard**: WASD + JK for note lanes, Space for star power
+- **Pause / Quit**: Escape pauses or resumes; press Q or select “Quit to Menu” while paused
 - **Controller Support**: Full gamepad support with remappable button bindings
 - **Configurable Bindings**: Remap controller buttons per lane in Settings
 

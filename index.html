@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#100e13">
+    <title>GG2 — Guitar Game 2</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="game">
+      <header class="topbar">
+        <div class="brand">
+          <div>
+            <p class="eyebrow">Five-fret guitar challenge</p>
+            <h1>GG<span>2</span></h1>
+          </div>
+        </div>
+        <div class="song-label">
+          <span class="live-dot"></span>
+          <div><span class="stat-label">Setlist title</span><strong id="current-song">Practice Riff</strong></div>
+        </div>
+      </header>
+
+      <section class="hud" aria-label="Game stats">
+        <div class="score-block"><span class="stat-label">Score</span><strong id="score">0</strong></div>
+        <div class="combo-block"><span class="stat-label">Streak</span><strong><span id="combo">0</span> <small>HITS</small></strong></div>
+        <div class="multiplier-block"><span class="stat-label">Multiplier</span><strong id="multiplier">1×</strong></div>
+        <div class="rock-block">
+          <span class="stat-label">Rock meter</span>
+          <div class="meter" id="rock-meter" role="meter" aria-label="Rock meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <span id="rock-fill"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" aria-label="GG2 five-lane guitar game">
+        <div class="youtube-background" id="youtube-background" hidden aria-label="Selected YouTube song video">
+          <div id="youtube-player"></div>
+        </div>
+        <canvas id="board" width="960" height="540" aria-label="Perspective five-lane note highway"></canvas>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+        <div class="overlay menu-overlay" id="menu-overlay">
+          <div class="main-menu screen" id="main-menu">
+            <section class="menu-brand-panel" aria-label="GG2">
+              <img class="menu-poster" src="assets/metalocalypse-logo.png" alt="Artwork from the game disc">
+              <p class="menu-kicker">TURN IT UP</p>
+              <div class="menu-logo" aria-label="GG2"><span>GG</span><strong>2</strong></div>
+              <p class="menu-tagline">FIND YOUR RIFF.</p>
+              <div class="menu-disc-art" aria-label="Artwork from the game disc">
+                <img src="assets/song-poster.png" alt="Disc song poster">
+                <img src="assets/skin-poster.png" alt="Disc guitar poster">
+              </div>
+            </section>
+            <section class="menu-selector" aria-label="Main menu">
+              <p class="eyebrow">MAIN STAGE</p>
+              <h2>Choose your next move</h2>
+              <div class="menu-options" id="menu-options">
+                <button class="menu-option selected" data-action="career" type="button"><span>01</span>Career<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="quickplay" type="button"><span>02</span>Quick Play<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="multiplayer" type="button"><span>03</span>Local Multiplayer<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="training" type="button"><span>04</span>Training<span class="option-arrow">›</span></button>
+                <button class="menu-option" data-action="options" type="button"><span>05</span>Options<span class="option-arrow">›</span></button>
+              </div>
+              <p class="menu-hint"><kbd>↑</kbd><kbd>↓</kbd> SELECT <kbd>ENTER</kbd> CONFIRM</p>
+            </section>
+          </div>
+
+          <section class="subscreen screen" id="setup-screen" hidden>
+            <p class="eyebrow">GG2 · SETUP</p>
+            <h2 id="setup-title">Quick Play</h2>
+            <p id="setup-description">Pick a difficulty and jump straight into the practice riff.</p>
+            <label class="song-choice">
+              <span>Setlist title</span>
+              <select id="song-select">
+                <option value="practice">GG2 Original Practice Riff</option>
+                <option value="shout">Shout at the Devil — Mötley Crüe</option>
+                <option value="heart-shaped">Heart-Shaped Box — Nirvana</option>
+                <option value="surrender">Surrender (Live) — Cheap Trick</option>
+                <option value="carry-on">Carry On Wayward Son — Kansas</option>
+                <option value="sweet-child">Sweet Child o' Mine — Guns N' Roses</option>
+                <option value="hangar-18">Hangar 18 — Megadeth</option>
+                <option value="free-bird">Free Bird — Lynyrd Skynyrd</option>
+                <option value="war-pigs">War Pigs — Black Sabbath</option>
+              </select>
+            </label>
+            <div class="setup-art">
+              <img id="setup-album-art" src="assets/song-poster.png" alt="GG2 Original Practice Riff album artwork">
+              <div><span class="stat-label">Selected title</span><strong id="setup-song-title">GG2 Original Practice Riff</strong></div>
+            </div>
+            <label class="difficulty" id="difficulty-control">
+              <span>Difficulty</span>
+              <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+            <p class="setup-note" id="setup-note" role="status" aria-live="polite" hidden></p>
+            <div class="screen-actions">
+              <button class="secondary-button" data-action="back" type="button">Back</button>
+              <button class="primary-button" id="start" type="button">Start set</button>
+            </div>
+          </section>
+
+          <section class="subscreen screen options-screen" id="options-screen" hidden>
+            <p class="eyebrow">GG2 · OPTIONS</p>
+            <h2>Make it yours</h2>
+            <label class="option-setting"><span>Default difficulty</span>
+              <select id="default-difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+            <label class="option-setting"><span>Backing sound</span>
+              <select id="sound-setting">
+                <option value="on" selected>On</option>
+                <option value="off">Off</option>
+              </select>
+            </label>
+            <div class="screen-actions">
+              <button class="secondary-button" data-action="back" type="button">Back</button>
+              <button class="primary-button" id="save-options" type="button">Save options</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="overlay results-overlay" id="results-overlay" hidden>
+          <div class="results-card">
+            <p class="eyebrow" id="results-kicker">GG2 · SET RESULTS</p>
+            <h2 id="message-title">Set complete!</h2>
+            <p id="message"></p>
+            <button class="primary-button" id="result-action" type="button">Continue</button>
+            <button class="text-button" id="result-menu" type="button">Main menu</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="controller" aria-label="Guitar controller">
+        <p class="controller-hint">
+          Tap a fret as its note reaches the hit line ·
+          <span id="controller-status">Keyboard · PS2 USB adapter or standard gamepad</span>
+          <span class="status-divider">·</span>
+          <span id="clock-status">Audio-clock timing</span>
+        </p>
+        <div class="frets" aria-label="Fret buttons">
+          <button class="fret fret-green" data-lane="0" aria-label="Green fret A or R2">A</button>
+          <button class="fret fret-red" data-lane="1" aria-label="Red fret S or R1">S</button>
+          <button class="fret fret-yellow" data-lane="2" aria-label="Yellow fret D or L2">D</button>
+          <button class="fret fret-blue" data-lane="3" aria-label="Blue fret J or L1">J</button>
+          <button class="fret fret-orange" data-lane="4" aria-label="Orange fret K or X">K</button>
+        </div>
+        <p class="controller-map"><kbd>A</kbd><span>R2</span><i>·</i><kbd>S</kbd><span>R1</span><i>·</i><kbd>D</kbd><span>L2</span><i>·</i><kbd>J</kbd><span>L1</span><i>·</i><kbd>K</kbd><span>X / Cross</span></p>
+      </section>
+
+      <footer class="help">
+        <p>Tap the matching <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>J</kbd><kbd>K</kbd> key or mapped controller button as each note reaches the line. Chords are pressed together.</p>
+        <p class="notice">GG2 uses original practice audio, local song files, or the selected official YouTube embed. Serve the game from http://localhost or HTTPS to load local songs.</p>
+      </footer>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>

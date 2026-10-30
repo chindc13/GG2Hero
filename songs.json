@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "songs": [
+    {
+      "id": "practice",
+      "title": "GG2 Original Practice Riff",
+      "artist": "GG2",
+      "type": "practice"
+    },
+    {
+      "id": "shout",
+      "title": "Shout at the Devil",
+      "artist": "Mötley Crüe",
+      "audioUrl": "songs/Motley%20Crue%20-%20Shout%20at%20the%20Devil%20(Beenox%2C%20%20Neversoft)/song.mp3",
+      "midiUrl": "songs/Motley%20Crue%20-%20Shout%20at%20the%20Devil%20(Beenox%2C%20%20Neversoft)/notes.mid",
+      "albumArtUrl": "songs/Motley%20Crue%20-%20Shout%20at%20the%20Devil%20(Beenox%2C%20%20Neversoft)/album.jpg"
+    },
+    {
+      "id": "heart-shaped",
+      "title": "Heart-Shaped Box",
+      "artist": "Nirvana",
+      "audioUrl": "songs/Nirvana%20-%20Heart-Shaped%20Box%20(Harmonix)/song.mp3",
+      "midiUrl": "songs/Nirvana%20-%20Heart-Shaped%20Box%20(Harmonix)/notes.mid",
+      "albumArtUrl": "songs/Nirvana%20-%20Heart-Shaped%20Box%20(Harmonix)/album.jpg"
+    },
+    {
+      "id": "surrender",
+      "title": "Surrender (Live)",
+      "artist": "Cheap Trick",
+      "audioUrl": "songs/Cheap%20Trick%20-%20Surrender%20(Live)%20(Harmonix)/song.mp3",
+      "midiUrl": "songs/Cheap%20Trick%20-%20Surrender%20(Live)%20(Harmonix)/notes.mid",
+      "albumArtUrl": "songs/Cheap%20Trick%20-%20Surrender%20(Live)%20(Harmonix)/album.jpg"
+    },
+    {
+      "id": "carry-on",
+      "title": "Carry On Wayward Son",
+      "artist": "Kansas",
+      "audioUrl": "songs/Kansas%20-%20Carry%20on%20Wayward%20Son%20(Harmonix)/song.mp3",
+      "midiUrl": "songs/Kansas%20-%20Carry%20on%20Wayward%20Son%20(Harmonix)/notes.mid",
+      "albumArtUrl": "songs/Kansas%20-%20Carry%20on%20Wayward%20Son%20(Harmonix)/album.jpg"
+    },
+    {
+      "id": "sweet-child",
+      "title": "Sweet Child o' Mine",
+      "artist": "Guns N' Roses",
+      "audioUrl": "songs/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine%20(Unknown%20Charter)/guitar.mp3",
+      "midiUrl": "songs/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine%20(Unknown%20Charter)/notes.mid",
+      "albumArtUrl": "songs/Guns%20N%27%20Roses%20-%20Sweet%20Child%20o%27%20Mine%20(Unknown%20Charter)/album.jpg"
+    },
+    {
+      "id": "hangar-18",
+      "title": "Hangar 18",
+      "artist": "Megadeth",
+      "audioUrl": "songs/Megadeth%20-%20Hangar%2018%20(josh3d)/guitar.mp3",
+      "chartUrl": "songs/Megadeth%20-%20Hangar%2018%20(josh3d)/notes.chart",
+      "albumArtUrl": "songs/Megadeth%20-%20Hangar%2018%20(josh3d)/album.jpg"
+    },
+    {
+      "id": "free-bird",
+      "title": "Free Bird",
+      "artist": "Lynyrd Skynyrd",
+      "audioUrl": "songs/Lynyrd%20Skynyrd%20-%20Free%20Bird%20(Harmonix)/song.mp3",
+      "midiUrl": "songs/Lynyrd%20Skynyrd%20-%20Free%20Bird%20(Harmonix)/notes.mid",
+      "albumArtUrl": "songs/Lynyrd%20Skynyrd%20-%20Free%20Bird%20(Harmonix)/album.jpg"
+    },
+    {
+      "id": "war-pigs",
+      "title": "War Pigs",
+      "artist": "Black Sabbath",
+      "audioUrl": "songs/Black%20Sabbath%20(WaveGroup)%20-%20War%20Pigs%20(Harmonix)/song.mp3",
+      "midiUrl": "songs/Black%20Sabbath%20(WaveGroup)%20-%20War%20Pigs%20(Harmonix)/notes.mid",
+      "albumArtUrl": "songs/Black%20Sabbath%20(WaveGroup)%20-%20War%20Pigs%20(Harmonix)/album.jpg"
+    }
+  ]
+}

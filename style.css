@@ -267,9 +267,9 @@ canvas {
   flex: 1;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #554649;
-  border-bottom: 1px solid #554649;
-  background: transparent;
+  border-right: 3px solid #d4c7bc;
+  border-bottom: 3px solid #d4c7bc;
+  background: rgba(0, 0, 0, 0.15);
   overflow: hidden;
 }
 
@@ -289,21 +289,23 @@ canvas {
 
 .player-label {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 12px;
+  left: 12px;
   z-index: 10;
-  color: #d4c7bc;
-  font-size: 0.85rem;
-  font-weight: 700;
+  color: #f5f2ed;
+  font-size: 1.1rem;
+  font-weight: 900;
   text-transform: uppercase;
-  text-shadow: 0 2px 4px rgb(0 0 0 / 80%);
+  text-shadow: 0 3px 8px rgb(0 0 0 / 90%), 0 0 12px rgba(212, 199, 188, 0.5);
+  letter-spacing: 1px;
 }
 
 .board-canvas {
   flex: 1;
   width: 100%;
-  display: none;
+  display: block;
   pointer-events: none;
+  background: transparent;
 }
 
 .player-stats {

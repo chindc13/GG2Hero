@@ -1011,14 +1011,8 @@
     for (let index = windowEnd - 1; index >= chartWindowStart; index -= 1) drawNote(chart[index], elapsed);
     context.restore();
     
-    // If in multiplayer mode, render to all player boards
-    if (isSimultaneousMultiplayer && playerContexts.length > 0) {
-      for (let p = 0; p < playerContexts.length; p++) {
-        const ctx = playerContexts[p];
-        // Copy the current game rendering to each player's canvas
-        ctx.clearRect(0, 0, 960, 540);
-        ctx.drawImage(canvas, 0, 0);
-      }
+    // Update multiplayer HUD if in multiplayer mode
+    if (isSimultaneousMultiplayer) {
       updateMultiplayerHud();
     }
   }
@@ -1422,7 +1416,7 @@
       multiplayerBoards.hidden = playerCount !== 2;
       multiplayerBoards3.hidden = playerCount !== 3;
       multiplayerBoards4.hidden = playerCount !== 4;
-      canvas.hidden = true;
+      canvas.hidden = false; // Keep main canvas visible for rendering
       
       if (playerCount === 2) {
         const boards = multiplayerBoards.querySelectorAll(".board-canvas");

@@ -28,6 +28,9 @@
   const speedSelect = document.querySelector("#speed");
   const defaultSpeed = document.querySelector("#default-speed");
   const soundSetting = document.querySelector("#sound-setting");
+  const playerCountSelect = document.querySelector("#player-count");
+  const playersControl = document.querySelector("#players-control");
+  const noFailSelect = document.querySelector("#no-fail");
   const startButton = document.querySelector("#start");
   const saveOptionsButton = document.querySelector("#save-options");
   const resultsOverlay = document.querySelector("#results-overlay");
@@ -137,6 +140,8 @@
   let currentMode = "quickplay";
   let currentPlayer = 1;
   let multiplayerScores = [];
+  let playerCount = 1;
+  let noFailMode = false;
   let selectedDifficulty = "medium";
 
   function songTimeMs() {
@@ -1186,13 +1191,15 @@
     currentMode = mode;
     showScreen("setup");
     difficultyControl.hidden = mode === "training";
+    playersControl.hidden = mode !== "multiplayer";
 
     if (mode === "multiplayer") {
-      setupTitle.textContent = "Local Multiplayer";
-      setupDescription.textContent = "Pass the keyboard between two players and compare your set scores.";
-      setupNote.textContent = "Player 1 plays first. Player 2 gets the same chart and difficulty.";
-      startButton.textContent = "Start player 1";
+      setupTitle.textContent = "Local Multiplayer - Battle Mode";
+      setupDescription.textContent = "All players play the same chart simultaneously and compete for the high score!";
+      setupNote.textContent = "Select number of players (1-4), then everyone plays together.";
+      startButton.textContent = "Start battle";
       difficultySelect.value = selectedDifficulty;
+      playerCountSelect.value = playerCount;
     } else if (mode === "training") {
       setupTitle.textContent = "Training";
       setupDescription.textContent = "Practice the riff on Easy. Misses won't end your session.";
@@ -1396,28 +1403,44 @@
   }
 
   function finishGame(success) {
-    if (currentMode === "multiplayer" && currentPlayer === 1) {
-      multiplayerScores[0] = score;
-      showResults(
-        "Pass the guitar",
-        `Player 1 scored ${score.toLocaleString()}. Hand the controls to Player 2 for the same chart.`,
-        "Start player 2",
-        "GG2Hero · LOCAL DUEL",
-      );
-      return;
-    }
-
     if (currentMode === "multiplayer") {
-      multiplayerScores[1] = score;
-      const [playerOne, playerTwo] = multiplayerScores;
-      const outcome = playerOne === playerTwo
-        ? "It's a tie!"
-        : playerOne > playerTwo ? "Player 1 takes the win!" : "Player 2 takes the win!";
+      // Store all player scores
+      multiplayerScores[currentPlayer - 1] = score;
+      
+      if (currentPlayer < playerCount) {
+        // More players to go
+        showResults(
+          `Player ${currentPlayer} complete!`,
+          `Player ${currentPlayer} scored ${score.toLocaleString()}. Hand the controls to Player ${currentPlayer + 1}.`,
+          `Start player ${currentPlayer + 1}`,
+          "GG2Hero · LOCAL BATTLE",
+        );
+        return;
+      }
+      
+      // All players done - show results
+      let resultMessage = "";
+      for (let i = 0; i < playerCount; i++) {
+        if (i > 0) resultMessage += " · ";
+        resultMessage += `P${i + 1}: ${multiplayerScores[i].toLocaleString()}`;
+      }
+      
+      // Find winner
+      let maxScore = Math.max(...multiplayerScores.slice(0, playerCount));
+      let winners = [];
+      for (let i = 0; i < playerCount; i++) {
+        if (multiplayerScores[i] === maxScore) winners.push(i + 1);
+      }
+      
+      let title = winners.length > 1 
+        ? `${winners.join(" & ")} tie!` 
+        : `Player ${winners[0]} takes the win!`;
+      
       showResults(
-        outcome,
-        `Player 1: ${playerOne.toLocaleString()} · Player 2: ${playerTwo.toLocaleString()}`,
+        title,
+        resultMessage,
         "Play again",
-        "GG2Hero · DUEL RESULTS",
+        "GG2Hero · BATTLE RESULTS",
       );
       return;
     }
@@ -1430,8 +1453,14 @@
 
   function advanceResults() {
     resultsOverlay.hidden = true;
-    if (currentMode === "multiplayer" && currentPlayer === 1) currentPlayer = 2;
-    startGame();
+    if (currentMode === "multiplayer" && currentPlayer < playerCount) {
+      currentPlayer++;
+      startGame();
+    } else {
+      currentPlayer = 1;
+      multiplayerScores = [];
+      showScreen("menu");
+    }
   }
 
   function updateSustains(elapsed, now) {
@@ -1479,7 +1508,7 @@
         note.missed = true;
         note.tailsDead = true;
         combo = 0;
-        if (currentMode !== "training") rock = Math.max(0, rock - 5);
+        if (currentMode !== "training" && !noFailMode) rock = Math.max(0, rock - 5);
           playMissScratch();
       }
     }
@@ -1487,7 +1516,7 @@
     updateHud();
     draw(elapsed, now);
 
-    if (currentMode !== "training" && rock <= 0) {
+    if (currentMode !== "training" && !noFailMode && rock <= 0) {
       finishGame(false);
       return;
     }
@@ -1572,7 +1601,7 @@
     const hitWindow = settings[selectedDifficulty].hitWindow;
     if (!target || smallestDifference > hitWindow) {
       combo = 0;
-      if (currentMode !== "training") rock = Math.max(0, rock - 4);
+      if (currentMode !== "training" && !noFailMode) rock = Math.max(0, rock - 4);
       playMissScratch();
       showFeedback("MISS", true);
       updateHud();
@@ -1585,7 +1614,7 @@
     if (!matchingFrets) {
       target.tailsDead = true;
       combo = 0;
-      if (currentMode !== "training") rock = Math.max(0, rock - 7);
+      if (currentMode !== "training" && !noFailMode) rock = Math.max(0, rock - 7);
       playMissScratch();
       showFeedback("WRONG FRETS", true);
       updateHud();
@@ -1619,6 +1648,8 @@
   startButton.addEventListener("click", () => {
     currentPlayer = 1;
     multiplayerScores = [];
+    playerCount = Number(playerCountSelect.value);
+    noFailMode = noFailSelect.value === "on";
     void startGame();
   });
 
@@ -1657,6 +1688,14 @@
   });
   
   difficultySelect.addEventListener("change", updateSongLabel);
+  
+  playerCountSelect.addEventListener("change", (event) => {
+    playerCount = Number(event.target.value);
+  });
+  
+  noFailSelect.addEventListener("change", (event) => {
+    noFailMode = event.target.value === "on";
+  });
 
   saveOptionsButton.addEventListener("click", () => {
     selectedDifficulty = defaultDifficulty.value;

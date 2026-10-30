@@ -3,6 +3,9 @@
 
   const canvas = document.querySelector("#board");
   const context = canvas.getContext("2d");
+  const multiplayerBoards = document.querySelector("#multiplayer-boards");
+  const multiplayerBoards3 = document.querySelector("#multiplayer-boards-3");
+  const multiplayerBoards4 = document.querySelector("#multiplayer-boards-4");
   const scoreElement = document.querySelector("#score");
   const comboElement = document.querySelector("#combo");
   const multiplierElement = document.querySelector("#multiplier");
@@ -143,6 +146,9 @@
   let playerCount = 1;
   let noFailMode = false;
   let selectedDifficulty = "medium";
+  let isSimultaneousMultiplayer = false;
+  let playerStates = []; // Track state for each player in simultaneous mode
+  let playerContexts = []; // Canvas contexts for each player
 
   function songTimeMs() {
     if (currentTrack?.audioUrl && localAudioReady) {
@@ -719,6 +725,16 @@
     rockFill.style.width = `${rock}%`;
     rockMeter.setAttribute("aria-valuenow", String(Math.round(rock)));
   }
+  
+  function updateMultiplayerHud() {
+    // Update player board stats
+    const boardContainers = document.querySelectorAll(".player-board");
+    for (let i = 0; i < playerCount && i < boardContainers.length; i++) {
+      const stats = boardContainers[i].querySelectorAll(".player-score, .player-combo");
+      if (stats[0]) stats[0].textContent = playerStates[i].score.toLocaleString();
+      if (stats[1]) stats[1].textContent = String(playerStates[i].combo);
+    }
+  }
 
   function drawBackground(now) {
     const width = canvas.width;
@@ -994,6 +1010,17 @@
     context.clip();
     for (let index = windowEnd - 1; index >= chartWindowStart; index -= 1) drawNote(chart[index], elapsed);
     context.restore();
+    
+    // If in multiplayer mode, render to all player boards
+    if (isSimultaneousMultiplayer && playerContexts.length > 0) {
+      for (let p = 0; p < playerContexts.length; p++) {
+        const ctx = playerContexts[p];
+        // Copy the current game rendering to each player's canvas
+        ctx.clearRect(0, 0, 960, 540);
+        ctx.drawImage(canvas, 0, 0);
+      }
+      updateMultiplayerHud();
+    }
   }
 
   function getNoiseBuffer() {
@@ -1384,6 +1411,55 @@
     }
     menuOverlay.hidden = true;
     resultsOverlay.hidden = true;
+    
+    // Set up simultaneous multiplayer if enabled
+    if (currentMode === "multiplayer") {
+      isSimultaneousMultiplayer = true;
+      playerStates = [];
+      playerContexts = [];
+      
+      // Show appropriate multiplayer board layout
+      multiplayerBoards.hidden = playerCount !== 2;
+      multiplayerBoards3.hidden = playerCount !== 3;
+      multiplayerBoards4.hidden = playerCount !== 4;
+      canvas.hidden = true;
+      
+      if (playerCount === 2) {
+        const boards = multiplayerBoards.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 3) {
+        const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 4) {
+        const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      }
+      
+      // Initialize state for each player
+      for (let i = 0; i < playerCount; i++) {
+        playerStates[i] = {
+          score: 0,
+          combo: 0,
+          bestCombo: 0,
+          rock: 50,
+          activeLanes: new Set(),
+          keyboardLanes: new Set(),
+          gamepadLanes: new Set(),
+          pointerLanes: new Set(),
+          previousGamepadLanes: new Set(),
+          pendingInputLanes: new Set(),
+          laneHitUntil: new Array(laneCount).fill(0),
+          chartWindowStart: 0,
+        };
+      }
+    } else {
+      isSimultaneousMultiplayer = false;
+      multiplayerBoards.hidden = true;
+      multiplayerBoards3.hidden = true;
+      multiplayerBoards4.hidden = true;
+      canvas.hidden = false;
+    }
+    
     running = true;
     playBackingTrack();
     animationFrame = requestAnimationFrame(frame);

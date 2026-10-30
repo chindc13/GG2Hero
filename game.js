@@ -1028,15 +1028,11 @@
     // Ensure we have contexts (in case they weren't initialized properly)
     if (playerContexts.length !== playerCount) {
       console.warn(`[Draw] Context count mismatch: ${playerContexts.length} vs ${playerCount}, reinitializing`);
-      if (playerCount === 2) {
-        const boards = multiplayerBoards.querySelectorAll(".board-canvas");
-        playerContexts = [...boards].map(c => c.getContext("2d"));
-      } else if (playerCount === 3) {
-        const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
-        playerContexts = [...boards].map(c => c.getContext("2d"));
-      } else if (playerCount === 4) {
+      if (playerCount === 4) {
         const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
+        console.log(`[Draw Reinit] Found ${boards.length} canvases`);
         playerContexts = [...boards].map(c => c.getContext("2d"));
+        console.log(`[Draw Reinit] Now have ${playerContexts.length} contexts`);
       }
     }
     
@@ -1609,7 +1605,12 @@
         playerContexts = [...boards].map(c => c.getContext("2d"));
       } else if (playerCount === 4) {
         const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
-        playerContexts = [...boards].map(c => c.getContext("2d"));
+        console.log(`[StartGame] Found ${boards.length} board canvases in multiplayerBoards4`);
+        playerContexts = [...boards].map((c, idx) => {
+          const ctx = c.getContext("2d");
+          console.log(`[StartGame] Canvas ${idx}: width=${c.width}, height=${c.height}, ctx=${!!ctx}`);
+          return ctx;
+        });
       }
       
       console.log(`[GameStart] Multiplayer mode: ${playerCount} players, got ${playerContexts.length} contexts`);

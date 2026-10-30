@@ -150,6 +150,7 @@
   
   // Simultaneous multiplayer state
   let playerStates = []; // Array of { score, combo, bestCombo, rock, activeLanes, etc }
+  let playerContexts = []; // Canvas contexts for each player board
   let playerInputMaps = []; // Input routing for each player (gamepad index or "keyboard")
 
   function songTimeMs() {
@@ -1020,27 +1021,153 @@
   }
   
   function drawSimultaneousMultiplayer(elapsed, now) {
-    // Simply draw the regular game to the main canvas
-    // The CSS will handle splitting it across player boards
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    if (!currentTrack?.youtubeVideoId) drawBackground(now);
-    drawHighway();
-    advanceChartWindow(elapsed);
-    let windowEnd = chartWindowStart;
-    while (windowEnd < chart.length && chart[windowEnd].time <= elapsed + approachMs) windowEnd += 1;
-    context.save();
-    context.beginPath();
-    context.moveTo(canvas.width / 2 - highwayTopHalfWidth, highwayHorizonY);
-    context.lineTo(canvas.width / 2 + highwayTopHalfWidth, highwayHorizonY);
-    context.lineTo(canvas.width / 2 + highwayBottomHalfWidth, hitLineY + 34);
-    context.lineTo(canvas.width / 2 - highwayBottomHalfWidth, hitLineY + 34);
-    context.closePath();
-    context.clip();
-    for (let index = windowEnd - 1; index >= chartWindowStart; index -= 1) drawNote(chart[index], elapsed);
-    context.restore();
+    // Draw full game view to each player's canvas
+    for (let playerIdx = 0; playerIdx < playerCount && playerIdx < playerContexts.length; playerIdx++) {
+      const ctx = playerContexts[playerIdx];
+      if (!ctx) continue;
+      
+      const playerState = playerStates[playerIdx];
+      const canvas = ctx.canvas;
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Clear and draw background
+      ctx.clearRect(0, 0, width, height);
+      const sky = ctx.createLinearGradient(0, 0, 0, height);
+      sky.addColorStop(0, "#19151b");
+      sky.addColorStop(0.58, "#42262b");
+      sky.addColorStop(1, "#100e13");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, width, height);
+      
+      // Draw highway scaled to this player's canvas
+      const scale = width / 960;
+      const scaledTopHalfWidth = highwayTopHalfWidth * scale;
+      const scaledBottomHalfWidth = highwayBottomHalfWidth * scale;
+      const scaledHorizonY = highwayHorizonY * scale;
+      const scaledHitLineY = hitLineY * scale;
+      
+      // Draw lane lines
+      ctx.strokeStyle = "#3a1d24";
+      ctx.lineWidth = 1;
+      for (let i = 1; i < laneCount; i++) {
+        const laneProgress = i / laneCount;
+        const topX = (width / 2) - scaledTopHalfWidth + (2 * scaledTopHalfWidth) * laneProgress;
+        const botX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
+        ctx.beginPath();
+        ctx.moveTo(botX, scaledHitLineY + 34 * scale);
+        ctx.lineTo(topX, scaledHorizonY);
+        ctx.stroke();
+      }
+      
+      // Draw highway edges
+      ctx.strokeStyle = "#6d5d60";
+      ctx.lineWidth = 2 * scale;
+      ctx.beginPath();
+      ctx.moveTo(width / 2 - scaledTopHalfWidth, scaledHorizonY);
+      ctx.lineTo(width / 2 + scaledTopHalfWidth, scaledHorizonY);
+      ctx.lineTo(width / 2 + scaledBottomHalfWidth, scaledHitLineY + 34 * scale);
+      ctx.lineTo(width / 2 - scaledBottomHalfWidth, scaledHitLineY + 34 * scale);
+      ctx.closePath();
+      ctx.stroke();
+      
+      // Draw hit line
+      ctx.strokeStyle = "#c4a59e";
+      ctx.lineWidth = 3 * scale;
+      ctx.beginPath();
+      ctx.moveTo(width / 2 - scaledBottomHalfWidth - 20 * scale, scaledHitLineY);
+      ctx.lineTo(width / 2 + scaledBottomHalfWidth + 20 * scale, scaledHitLineY);
+      ctx.stroke();
+      
+      // Draw fret targets
+      for (let lane = 0; lane < laneCount; lane++) {
+        const laneProgress = (lane + 0.5) / laneCount;
+        const laneX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
+        ctx.fillStyle = laneColors[lane];
+        ctx.beginPath();
+        ctx.ellipse(laneX, scaledHitLineY + 20 * scale, (scaledBottomHalfWidth / laneCount) * 0.35, 14 * scale, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.4)";
+        ctx.lineWidth = 2 * scale;
+        ctx.stroke();
+      }
+      
+      // Clip and draw notes for this player
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(width / 2 - scaledTopHalfWidth, scaledHorizonY);
+      ctx.lineTo(width / 2 + scaledTopHalfWidth, scaledHorizonY);
+      ctx.lineTo(width / 2 + scaledBottomHalfWidth, scaledHitLineY + 34 * scale);
+      ctx.lineTo(width / 2 - scaledBottomHalfWidth, scaledHitLineY + 34 * scale);
+      ctx.closePath();
+      ctx.clip();
+      
+      // Draw notes
+      for (let idx = playerState.chartWindowStart; idx < chart.length; idx++) {
+        const note = chart[idx];
+        if (note.time > elapsed + approachMs) break;
+        if (note.time < elapsed - approachMs) continue;
+        
+        const noteProgress = (elapsed - note.time) / approachMs;
+        const noteY = scaledHorizonY + (scaledHitLineY - scaledHorizonY) * noteProgress;
+        
+        // Draw sustain tails
+        if (note.tails) {
+          for (const tail of note.tails) {
+            if (tail.done || tail.broken) continue;
+            drawTailScaled(ctx, tail, note, elapsed, scale, scaledBottomHalfWidth, scaledHorizonY, scaledHitLineY);
+          }
+        }
+        
+        // Draw gems
+        for (let lane of note.lanes) {
+          const laneProgress = (lane + 0.5) / laneCount;
+          const laneX = (width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
+          
+          // Scale based on perspective
+          const notePerspectiveScale = 0.4 + 0.6 * noteProgress;
+          const gemWidth = (scaledBottomHalfWidth / laneCount) * 0.5 * notePerspectiveScale;
+          const gemHeight = 24 * notePerspectiveScale * scale;
+          
+          // Gem colors (dome)
+          ctx.fillStyle = laneColors[lane];
+          ctx.beginPath();
+          ctx.ellipse(laneX, noteY, gemWidth * 0.6, gemHeight * 0.5, 0, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Gem ring
+          ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
+          ctx.lineWidth = 1.5 * scale;
+          ctx.stroke();
+        }
+      }
+      
+      ctx.restore();
+    }
     
     // Update player HUD
     updateMultiplayerHud();
+  }
+  
+  function drawTailScaled(ctx, tail, note, elapsed, scale, scaledBottomHalfWidth, scaledHorizonY, scaledHitLineY) {
+    const lane = tail.lane;
+    const laneWidth = (scaledBottomHalfWidth * 2) / laneCount;
+    const laneProgress = (lane + 0.5) / laneCount;
+    const laneX = (ctx.canvas.width / 2) - scaledBottomHalfWidth + (2 * scaledBottomHalfWidth) * laneProgress;
+    
+    const from = Math.max(note.time, tail.lastTick ?? note.time);
+    const to = Math.min(elapsed, tail.end);
+    
+    const fromProgress = (elapsed - from) / approachMs;
+    const toProgress = (elapsed - to) / approachMs;
+    
+    const tailTopY = scaledHorizonY + (scaledHitLineY - scaledHorizonY) * Math.max(0, toProgress);
+    const tailBottomY = scaledHorizonY + (scaledHitLineY - scaledHorizonY) * Math.min(1, fromProgress);
+    
+    ctx.fillStyle = laneColors[lane];
+    ctx.globalAlpha = 0.6;
+    ctx.fillRect(laneX - laneWidth * 0.25, tailTopY, laneWidth * 0.5, Math.max(0, tailBottomY - tailTopY));
+    ctx.globalAlpha = 1;
   }
 
   function getNoiseBuffer() {
@@ -1436,12 +1563,25 @@
     if (currentMode === "multiplayer") {
       isSimultaneousMultiplayer = true;
       playerStates = [];
+      playerContexts = [];
       
       // Show appropriate multiplayer board layout
       multiplayerBoards.hidden = playerCount !== 2;
       multiplayerBoards3.hidden = playerCount !== 3;
       multiplayerBoards4.hidden = playerCount !== 4;
-      canvas.hidden = false; // Keep main canvas visible for rendering
+      canvas.hidden = true; // Hide main canvas in multiplayer
+      
+      // Get board canvases and initialize contexts
+      if (playerCount === 2) {
+        const boards = multiplayerBoards.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 3) {
+        const boards = multiplayerBoards3.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      } else if (playerCount === 4) {
+        const boards = multiplayerBoards4.querySelectorAll(".board-canvas");
+        playerContexts = [...boards].map(c => c.getContext("2d"));
+      }
       
       // Initialize state for each player
       for (let i = 0; i < playerCount; i++) {

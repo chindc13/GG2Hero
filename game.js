@@ -1044,6 +1044,12 @@
       console.log(`[Draw Reinit] Now have ${playerContexts.length} contexts`);
     }
     
+    // Sanity check: log if we still don't have enough contexts
+    if (playerContexts.length < playerCount) {
+      console.error(`[Draw] STILL MISSING CONTEXTS! Have ${playerContexts.length}, need ${playerCount}`);
+      return; // Bail out, can't render without contexts
+    }
+    
     for (let playerIdx = 0; playerIdx < playerCount && playerIdx < playerContexts.length; playerIdx++) {
       const ctx = playerContexts[playerIdx];
       if (!ctx) {
